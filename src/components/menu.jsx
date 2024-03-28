@@ -52,6 +52,9 @@ function Menu(props) {
             Inicio
           </a>
           <a href="#" className="text-sm font-semibold leading-6 text-white">
+            Viajes
+          </a>
+          <a href="#" className="text-sm font-semibold leading-6 text-white">
             Conciertos
           </a>
           <a href="#" className="text-sm font-semibold leading-6 text-white">

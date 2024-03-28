@@ -7,7 +7,7 @@
 }
 
 .slick-prev {
-  background: linear-gradient(90deg, #121212 50%, rgba(64,0,255,0) 100%) !important;
+  background: linear-gradient(90deg, #010417 50%, rgba(64,0,255,0) 100%) !important;
   height: 100% !important;
   position: absolute !important;
   width: 5% !important;
@@ -15,7 +15,7 @@
 }
 
 .slick-next {
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 50%, #121212 90%) !important;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #010417 70%) !important;
   height: 100% !important;
   position: absolute !important;
   width: 5% !important;
@@ -24,5 +24,16 @@
 }
 
 body {
-  background-color: #121212;
+  background-color: #010417;
 }
+
+.section-map {
+  svg {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  
+  path {
+    fill: #02082e;
+  }
+ }
