@@ -33,7 +33,7 @@ function Menu(props) {
     <header className="w-full absolute top left z-50 bg-gradient-to-b from-[#121212] ">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8 relative" aria-label="Global">
         <div className="flex lg:flex-1">
-          <a href="#" className="-m-1.5 p-1.5">
+          <a href="/" className="-m-1.5 p-1.5">
             <img className="w-48" src={ logo } alt="" />
           </a>
         </div>
@@ -58,13 +58,16 @@ function Menu(props) {
             Conciertos
           </a>
           <a href="#" className="text-sm font-semibold leading-6 text-white">
-            Deportes
+            Eventos
           </a>
           <a href="#" className="text-sm font-semibold leading-6 text-white">
-            Comedia
+            Hoteles
           </a>
           <a href="#" className="text-sm font-semibold leading-6 text-white">
-            Magia
+            Tour
+          </a>
+          <a href="#" className="text-sm font-semibold leading-6 text-white">
+            Inciciar Sesión / Registrate
           </a>
         </Popover.Group>
       </nav>
