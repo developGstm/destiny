@@ -66,8 +66,8 @@ function Menu(props) {
           <a href="#" className="text-sm font-semibold leading-6 text-white">
             Tour
           </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-white">
-            Inciciar Sesión / Registrate
+          <a href="/login" className="text-sm font-semibold leading-6 text-white">
+            Iniciar Sesión / Registrate
           </a>
         </Popover.Group>
       </nav>
@@ -140,7 +140,7 @@ function Menu(props) {
               </div>
               <div className="py-6">
                 <a
-                  href="#"
+                  href="/login"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Log in

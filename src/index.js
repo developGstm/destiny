@@ -10,6 +10,8 @@ import Home from './home';
 import Landing from './pages/landing';
 import Checkout from './pages/checkout'
 import CheckoutSucess from './pages/checkoutSucess'
+import Login from './pages/login'
+import Register from './pages/register'
 
 const router = createBrowserRouter([
   {
@@ -44,6 +46,14 @@ const router = createBrowserRouter([
       }
     ]
   },
+  {
+    path: "/login",
+    element:<Login/>,
+  },
+  {
+    path: '/register',
+    element:<Register/>,
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

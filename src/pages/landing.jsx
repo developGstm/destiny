@@ -22,7 +22,7 @@ const Landing = () => {
   })
 
   useEffect(() => {
-    Axios.get(`https://cms.gstmtravel.com/api/filterServiceSearch/${url}`)
+    Axios.get(`http://localhost:1337/api/filterServiceSearch/${url}`)
     .then(response => {
       const data = new modelService(response?.data?.data[0])
       setdata(data)
@@ -32,6 +32,12 @@ const Landing = () => {
       console.log(err)
     })
   }, [])
+
+  const handleOptionSelectDate = (index, option) => {
+    let newArray = data?.tarifas;
+    newArray[index].optionSelect = data?.tarifas[index]?.fechas.find(item => item.fecha_evento === option)
+    setdata({...data, tarifas: newArray})
+  }
 
   return (
     <div>
@@ -92,36 +98,54 @@ const Landing = () => {
             <div className='w-full mt-10'>
               <div className=' rounded border p-3'>
                 {
-                  data?.tarifas?.map(tarifa => {
+                  data?.tarifas?.map((tarifa,index) => {
                     return(
-                      <div className='flex items-center gap-2 p-1 border-b flex-col md:flex-row'>
+                      <div className='flex items-center gap-2 p-1 border-b flex-col'>
                         <div className='flex items-center gap-2 w-full flex-col md:flex-row'>
                           <div className='w-full text-center md:w-1/6 flex gap-1 items-center justify-between'>
-                            {
-                              tarifa.fecha && <div className='text-center'>
-                              <h6 className='uppercase'>{moment(tarifa.fecha).format('MMM')}</h6>
-                              <span>{moment(tarifa.fecha).format('DD')}</span>
-                            </div>
-                            }
-                            <div className='md:hidden'>
-                              <span className='font-bold'>${new Intl.NumberFormat('en-IN').format(tarifa.precio)}</span> <span className='text-xs block'>{data?.moneda}/{data?.unidad}</span>
-                            </div>
+                            <img src={tarifa.imagen.url} className='max-w-full object-cover' alt="" />
                           </div>
-                          <div className='w-full md:w-5/6 flex flex-col'>
+                          <div className='w-full md:w-4/6 flex flex-col'>
                             <p className='font-bold'>{tarifa.titulo}</p>
                             <span className='text-sm w-full md:w-2/3'>{tarifa.descripcion}</span>
                           </div>
-                        </div>
-                        <div className='flex items-center gap-2 w-full flex-col md:flex-row'>
-                          <div className='w-full md:w-1/3'>
-                            <span className='font-bold hidden md:flex'>${new Intl.NumberFormat('en-IN').format(tarifa.precio)}</span> <span className='text-xs hidden md:flex'>{data?.moneda}/{data?.unidad}</span>
+                          <div className='w-full md:w-1/6 flex flex-col'>
+                            <span className='font-bold text-xl'>${new Intl.NumberFormat('en-IN').format(tarifa.precio)}</span> <span className='text-sm'>{data?.moneda}/{data?.unidad}</span>
                           </div>
-                          <div className='w-full flex justify-end '>
-                            <Link to={`/checkout/${url}/${tarifa.id}/${tarifa.fecha}`} className='bg-[#2d8ae8]  my-3 rounded p-3 w-full text-white flex justify-center font-bold'>
+                        </div>
+                        <div className='flex items-end gap-2 w-full flex-col md:flex-row py-3'>
+                          <div className='flex flex-col w-full'>
+                            <span className='font-semibold text-white'>Fechas disponibles:</span>
+                            <select name="" className='w-full bg-transparent rounded-lg' id='tarifasSelect' onChange={(e) => handleOptionSelectDate(index, e.target.value)}>
+                            <option value="" selected disabled hidden>Selecciona una fecha</option>
+                              {
+                                tarifa?.fechas?.map(fecha => <option className='flex flex-col' value={fecha.fecha_evento}>                              
+                                  <h6 className='uppercase'>{moment(fecha.fecha_evento).format('dddd, MMMM Do, YYYY')}</h6>
+                                </option>)
+                              }
+                            </select>
+                          </div>
+                          { tarifa?.optionSelect && <div className='w-full flex'>
+                            <Link to={`/checkout/${url}/${tarifa.id}/${tarifa?.optionSelect?.fecha_evento}`} className='bg-[#2d8ae8]  rounded p-3 w-full text-white flex justify-center font-bold'>
                               Reservá ahora
-                            </Link>
+                            </Link> 
                           </div>
+                          }
                         </div>
+                          { tarifa?.optionSelect && <div className='w-full flex gap-3 pb-3 flex-col md:flex-row'>
+                            <div className='md:w-1/3 flex gap-3 items-center text-center border rounded-lg p-3'>
+                              <i className="fa-sharp fa-light fa-plane-departure text-2xl text-[#ffd603]"></i>
+                              <span className='text-xl font-bold'>{moment(tarifa?.optionSelect.fecha_inicio).format('dddd DD MMMM')}</span>
+                            </div>
+                            <div className='md:w-1/3 flex gap-3 items-center text-center border rounded-lg p-3'>
+                              <i className="fa-light fa-plane-arrival text-2xl text-[#ffd603]"></i>
+                              <span className='text-xl font-bold'>{moment(tarifa?.optionSelect.fecha_fin).format('dddd DD MMMM')}</span>
+                            </div>
+                            <div className='md:w-1/3 flex gap-3 items-center text-center border rounded-lg p-3'>
+                              <i className="fa-light fa-party-horn text-2xl text-[#ffd603]"></i>
+                              <span className='text-xl font-bold'>{moment(tarifa?.optionSelect.fecha_evento).format('dddd DD MMMM')}</span>
+                            </div>
+                          </div> }
                       </div>
                     )
                   })

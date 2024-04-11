@@ -13,16 +13,21 @@ function modelServicio(servicio) {
   this.type = new serviceModelType(servicio?.tipos_servicio)
   this.ubicacion = servicio?.ubiacion ? JSON.parse(servicio.ubiacion) : null
   this.incluye = servicio?.incluye?.map(item => {return({titulo:item?.titulo, descripcion:item?.descripcion})})
+  this.minimo_apartado = servicio?.minimo_apartado;
   this.tarifas = servicio?.tipos_servicio[0]?.Tarifas?.map(tarifa => {
     return(
       {
         id: tarifa?.id,
         titulo:tarifa?.titulo,
         precio:tarifa?.precio,
-        fecha:tarifa?.fecha,
-        descripcion:tarifa?.descripcion
+        descripcion:tarifa?.descripcion,
+        imagen: tarifa?.imagen,
+        fechas: tarifa?.Fechas ? tarifa?.Fechas : undefined
       }
     );
+  })
+  this.tarifaBaja = servicio?.tipos_servicio[0]?.Tarifas?.reduce((previous, current) => {
+    return current.precio < previous.precio ? current : previous;
   })
 }
     

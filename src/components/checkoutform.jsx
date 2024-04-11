@@ -75,13 +75,9 @@ export default function CheckoutForm() {
     setIsLoading(false);
   };
 
-  const paymentElementOptions = {
-    layout: "tabs"
-  }
-
   return (
     <form id="payment-form" onSubmit={handleSubmit} className="mt-5 w-full">
-      <PaymentElement id="payment-element" options={paymentElementOptions} />
+      <PaymentElement id="payment-element" options={{layout: {type: "accordion" }}}/>
       <button disabled={isLoading || !stripe || !elements} id="submitCheckoutForm">
         <span id="button-text">
           {isLoading ? <div className="spinner" id="spinner"></div> : "Reservar Ahora"}

@@ -5,7 +5,7 @@ import modelServices from '../models/servicesModel'
 function SectionType({type, title}) {
   const [tickets, settickets] = useState([])
   useEffect(() => {
-    Axios.get(`https://cms.gstmtravel.com/api/filterService/${type}`)
+    Axios.get(`http://localhost:1337/api/filterService/${type}`)
     .then(response => {
       const tickets = new modelServices(response?.data)
       settickets(tickets)
@@ -22,22 +22,27 @@ function SectionType({type, title}) {
           <h1 className="font-extrabold text-5xl mb-5 text-white lg:text-6xl" dangerouslySetInnerHTML={{__html: title}}>
           </h1>
           <div className="gallery-tickets">
-            <div className="mt-8 grid grid-cols-1 gap-2 md:grid-cols-2 w-full h-full">
-              {tickets?.servicios?.map(item => 
-                <div className="border p-1 flex rounded">
-                  <img 
-                    src={ item?.portada }
-                    alt="" 
-                    className='w-2/3 h-52 object-cover p-2 overflow-hidden'
-                    />
-                  <div className='p-2 border-l text-white flex flex-col justify-center w-1/3'>
-                    <h1 className='text-xl font-extrabold'>{ item?.titulo }</h1>
-                    <span className='font-bold text-xs flex gap-1 justify-center items-center'><i className="fa-sharp fa-light fa-location-dot"></i><p>{ item?.ubicacion?.description }</p></span>
-                    <a className='bg-[#2d8ae8] my-3 rounded p-3 text-center' href={`${window.location.href}${item?.type?.type}/${item?.url}`}>
-                      Reserva Ahora
-                    </a>
+            <div className="mt-8 grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4 w-full h-full">
+              {tickets?.servicios?.map(item => <a className="group relative overflow-hidden rounded-xl h-80" href={`${window.location.href}${item?.type?.type}/${item?.url}`}>
+                <img 
+                  src={ item?.portada }
+                  alt="" 
+                  className='object-cover h-full w-full'
+                />
+                <div className="bottom-0 left-0 absolute w-full h-2/3 bg-gradient-to-t from-[#010417] from-0%"></div>
+                <div className='p-2 text-white flex flex-col justify-end bottom-0 left-0 absolute h-full w-full'>
+                  <h1 className='text-2xl font-bold'>{ item?.titulo }</h1>
+                  <div className='w-full flex justify-between text-sm'>
+                    <span className='flex gap-1 items-center'>
+                      <i className="fa-sharp fa-light fa-location-dot text-[#ffd603]"></i>
+                      { item?.ubicacion?.locality }
+                    </span>
+                    <span className='flex gap-1 text-sm'>
+                      desde<p className='font-bold'>${new Intl.NumberFormat('en-IN').format(item?.tarifaBaja?.precio)}<span className='text-xs'>{item?.moneda}</span></p>
+                    </span>
                   </div>
                 </div>
+              </a>
               )}
             </div>
             <div className='flex items-end justify-end text-[#ffd603] mt-2'>

@@ -8,7 +8,7 @@ import CheckoutForm from '../components/checkoutform'
 import Axios from 'axios'
 import modelService from '../models/serviceModel'
 
-const stripePromise = loadStripe("pk_test_51MgUlTFyBKymnnM6dGT3LSsU9XWYyuza2ZnZKyDekBKQDPyy0BRAcSAoFxFkd7fb43Ni73wQZplHOBVVF9xntvyP00CcnuijYK", {
+const stripePromise = loadStripe("pk_test_51P2mMG057pUUcrQS23N5C5SUH4kOkFfdPoBrLwI3e2CsXZYNo00ynTi8f9TY34La94p4CQpkScoAPvxOr0xuEzr500vajxX1KE", {
   locale: 'es'
 })
 
@@ -22,9 +22,12 @@ const Checkout = (props) => {
   const [data, setdata] = useState({})
   const [tarifaSelect, setTarifaSelect] = useState(undefined)
   const [currencyTotal, setcurrencyTotal] = useState(undefined)
+  const [idPaymentIntent, setidPaymentIntent] = useState(undefined)
+  const [financiamiento, setfinanciamiento] = useState(undefined)
+  const [selectFinaciamiento, setselectFinaciamiento] = useState(undefined)
 
   useEffect(() => {
-    Axios.get(`https://cms.gstmtravel.com/api/filterServiceSearch/${url}`)
+    Axios.get(`http://localhost:1337/api/filterServiceSearch/${url}`)
     .then(response => {
       const dataModel = new modelService(response?.data?.data[0])
       setTarifaSelect(dataModel?.tarifas?.find(tarifaItem => tarifaItem.id === parseInt(tarifa)))
@@ -39,15 +42,17 @@ const Checkout = (props) => {
     e.preventDefault()
     let tarifaSend = tarifaSelect.titulo
     if (clientSecret === undefined) {
-      fetch("https://cms.gstmtravel.com/api/paymentIntent", {
+      fetch("http://localhost:1337/api/paymentIntent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({...dataUser, fecha: tarifaSelect.fecha ,paquete: {...data, total: tarifaSelect.precio,tarifaId: tarifaSelect.id ,tarifa: tarifaSend.concat(' $', tarifaSelect.precio, data?.moneda), estatus_pago: 'completo', plataforma_pago: 'strapi'}}),
+        body: JSON.stringify({...dataUser, fecha: fecha ,paquete: {...data, total: tarifaSelect.precio,tarifaId: tarifaSelect.id ,tarifa: tarifaSend.concat(' $', tarifaSelect.precio, data?.moneda), estatus_pago: 'completo', plataforma_pago: 'strapi'}}),
       })
       .then((res) => res.json())
       .then((data) => {
         setClientSecret(data.clientSecret)
-
+        setcurrencyTotal(data.tarifa)
+        setfinanciamiento(data?.tarifa?.financiamiento)
+        setidPaymentIntent(data.idPaymentIntent)
         setFormasPago(true)
         setshowInfoUser(false)
       });
@@ -76,6 +81,23 @@ const Checkout = (props) => {
   const handleInfo = () => {
     setshowInfoUser(true)
     setFormasPago(false)
+  }
+
+  const handleTypePayment = (type) => {
+    settypePayment(type)
+    fetch("http://localhost:1337/api/paymentIntentUpdate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({idPaymentIntent: idPaymentIntent, paquete: {...data, estatus_pago: type!==2 ? 'completo' : 'financiamiento', plataforma_pago: 'strapi',total: tarifaSelect.precio, tarifaId: tarifaSelect.id }}),
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        setcurrencyTotal(data.tarifa)
+      });
+  }
+
+  const handleSelectFinanciamiento = (value) => {
+    setselectFinaciamiento(value)
   }
   
   if (url) {
@@ -156,7 +178,7 @@ const Checkout = (props) => {
                   {FormasPago && <div>
                     <div className='grid grid-cols-1 mt-5 gap-5'>
                       <div  className={`${typePayment === 1 ? 'border-[3px]' : 'border'} ease-out duration-400 rounded-lg text-white text-left flex flex-col`} >
-                        <button className='w-full p-4 text-left' onClick={() => settypePayment(1)}><i className="fa-light fa-credit-card"></i> Tarjeta de crédito o débito</button>
+                        <button className='w-full p-4 text-left' onClick={() => handleTypePayment(1)}><i className="fa-light fa-credit-card"></i> Una sola Exhibición</button>
                         {typePayment === 1 && <div className='w-full flex items-center justify-center pb-4 px-2'>
                           {clientSecret && (
                             <Elements options={options} stripe={stripePromise}>
@@ -165,9 +187,20 @@ const Checkout = (props) => {
                           )}
                         </div>}
                       </div>
-                      <button className={`${typePayment === 3 ? 'border-[3px]' : 'border'} rounded-lg p-4 text-white text-left flex gap-2 items-center`} onClick={() => settypePayment(3)}><img src={`${window.location.protocol}//${window.location.host}/assets/icon-oxxo.webp`} alt='icon-oxxo-destiny' className='w-16'/></button>
-                      <button className={`${typePayment === 4 ? 'border-[3px]' : 'border'} rounded-lg p-4 text-white text-leftflex gap-2 items-center`} onClick={() => settypePayment(4)}><img src={`${window.location.protocol}//${window.location.host}/assets/icon-paypal.png`} alt='icon-paypal-destiny' className='w-16'/></button>
-                      <button className={`${typePayment === 5 ? 'border-[3px]' : 'border'} rounded-lg p-4 text-white text-left flex gap-2 items-center`} onClick={() => settypePayment(5)}><img src={`${window.location.protocol}//${window.location.host}/assets/icon-destiny.png`} alt='icon-destiny' className='w-16'/> Plan de pagos</button>
+                      <div  className={`${typePayment === 2 ? 'border-[3px]' : 'border'} ease-out duration-400 rounded-lg text-white text-left flex flex-col`} >
+                        <button className='w-full px-4 py-2 text-left' onClick={() => handleTypePayment(2)}><i className="fa-light fa-credit-card"></i> Plan de Pagos - <span className='font-bold text-[#ffd603]'>Pago inicial de ${data.minimo_apartado} MXN</span></button>
+                        {(financiamiento && typePayment ===2) && <div className='w-full flex flex-col px-4 pb-2'>
+                          <span>Planes de financiamento</span>
+                          <div className='flex gap-3'>{financiamiento?.map(promotion => <label className='font-semibold w-1/3'><input type="radio" name='promotion' value={promotion} onChange={() => handleSelectFinanciamiento(promotion)}/> {promotion.titulo}</label>)}</div>
+                        </div>}
+                        {(typePayment === 2 && selectFinaciamiento)&&<div className='w-full flex items-center justify-center pb-4 px-2'>
+                          {clientSecret && (
+                            <Elements options={options} stripe={stripePromise}>
+                              <CheckoutForm />
+                            </Elements>
+                          )}
+                        </div>}
+                      </div>
                     </div>
                   </div>}
                 </div>

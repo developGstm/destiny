@@ -281,3 +281,12 @@ body {
     min-width: initial;
   }
 }
+
+#tarifasSelect[data-open] datalist {
+  background-color: transparent;
+}
+
+
+#tarifasSelect option{
+  background-color:#010417;
+}
