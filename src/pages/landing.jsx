@@ -43,7 +43,7 @@ const Landing = () => {
   return (
     <div>
         <Seo
-        title={data?.titulo}
+        title={`Destiny Travel | ${data?.titulo}`}
         description={data?.descripcion}
         name={data?.titulo}
         type='website'

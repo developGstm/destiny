@@ -4,7 +4,7 @@ export default function SEO({title, description, name, type}) {
 return (
 <Helmet>
     { /* Standard metadata tags */ }
-    <title>Destiny Travel | {title}</title>
+    <title>{title}</title>
     <meta name='description' content={description} />
     { /* End standard metadata tags */ }
     { /* Facebook tags */ }
