@@ -5,7 +5,7 @@ import modelServices from '../models/servicesModel'
 function SectionType({type, title}) {
   const [tickets, settickets] = useState([])
   useEffect(() => {
-    Axios.get(`http://localhost:1337/api/filterService/${type}`)
+    Axios.get(`https://cms.gstmtravel.com/api/filterService/${type}`)
     .then(response => {
       const tickets = new modelServices(response?.data)
       settickets(tickets)

@@ -22,7 +22,7 @@ const Landing = () => {
   })
 
   useEffect(() => {
-    Axios.get(`http://localhost:1337/api/filterServiceSearch/${url}`)
+    Axios.get(`https://cms.gstmtravel.com/api/filterServiceSearch/${url}`)
     .then(response => {
       const data = new modelService(response?.data?.data[0])
       setdata(data)

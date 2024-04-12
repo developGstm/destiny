@@ -25,9 +25,10 @@ const Checkout = (props) => {
   const [idPaymentIntent, setidPaymentIntent] = useState(undefined)
   const [financiamiento, setfinanciamiento] = useState(undefined)
   const [selectFinaciamiento, setselectFinaciamiento] = useState(undefined)
+  const [desplieguePagos, setdesplieguePagos] = useState(undefined)
 
   useEffect(() => {
-    Axios.get(`http://localhost:1337/api/filterServiceSearch/${url}`)
+    Axios.get(`https://cms.gstmtravel.com/api/filterServiceSearch/${url}`)
     .then(response => {
       const dataModel = new modelService(response?.data?.data[0])
       setTarifaSelect(dataModel?.tarifas?.find(tarifaItem => tarifaItem.id === parseInt(tarifa)))
@@ -42,7 +43,7 @@ const Checkout = (props) => {
     e.preventDefault()
     let tarifaSend = tarifaSelect.titulo
     if (clientSecret === undefined) {
-      fetch("http://localhost:1337/api/paymentIntent", {
+      fetch("https://cms.gstmtravel.com/api/paymentIntent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({...dataUser, fecha: fecha ,paquete: {...data, total: tarifaSelect.precio,tarifaId: tarifaSelect.id ,tarifa: tarifaSend.concat(' $', tarifaSelect.precio, data?.moneda), estatus_pago: 'completo', plataforma_pago: 'strapi'}}),
@@ -52,7 +53,8 @@ const Checkout = (props) => {
         setClientSecret(data.clientSecret)
         setcurrencyTotal(data.tarifa)
         setfinanciamiento(data?.tarifa?.financiamiento)
-        setidPaymentIntent(data.idPaymentIntent)
+        setidPaymentIntent(data?.idPaymentIntent)
+        setdesplieguePagos(data?.tarifa?.despliegue_cargos)
         setFormasPago(true)
         setshowInfoUser(false)
       });
@@ -85,7 +87,11 @@ const Checkout = (props) => {
 
   const handleTypePayment = (type) => {
     settypePayment(type)
-    fetch("http://localhost:1337/api/paymentIntentUpdate", {
+    if (type === 1) {
+      setselectFinaciamiento(undefined)
+    }
+
+    fetch("https://cms.gstmtravel.com/api/paymentIntentUpdate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({idPaymentIntent: idPaymentIntent, paquete: {...data, estatus_pago: type!==2 ? 'completo' : 'financiamiento', plataforma_pago: 'strapi',total: tarifaSelect.precio, tarifaId: tarifaSelect.id }}),
@@ -112,13 +118,28 @@ const Checkout = (props) => {
             </div>
             <div className="flex flex-col md:flex-row-reverse gap-5 mt-10">
               <div className="md:w-2/3">
-                <div className='w-full h-full relative'>
-                  <div className="w-full absolute bottom-0 left-0 z-20 flex flex-col gap-1 text-white">
-                    <span className='font-bold text-[#ffd603]'>Tu proximo viaje:</span>
-                    <h1 className='text-lg font-semibold'>{data?.titulo}</h1>
-                    <div className="w-full flex justify-between text-sm font-bold">
+                <div className='w-full h-full relative min-h-screen'>
+                  <div className="w-full absolute bottom-0 left-0 z-20 flex flex-col md:flex-row gap-1 text-white">
+                    <div className='md:w-1/2'>
+                      <span className='font-bold text-[#ffd603]'>Tu proximo viaje:</span>
+                      <h1 className='text-lg font-semibold'>{data?.titulo}</h1>
                       <span>{tarifaSelect && tarifaSelect.titulo} | {fecha && fecha}</span>
-                      <span>${currencyTotal ? currencyTotal && `${new Intl.NumberFormat('en-IN').format(currencyTotal.total)} ${currencyTotal?.moneda}` : tarifaSelect &&`${new Intl.NumberFormat('en-IN').format(tarifaSelect.precio)} ${data?.moneda}`}</span>
+                    </div>
+                    <div className="md:w-1/2 flex md:justify-end text-sm font-bold flex-col gap-3">
+                      {
+                        (typePayment !== 1 && desplieguePagos) && <div className='flex flex-col gap-2'>
+                          <div>Valor total del paquete: ${new Intl.NumberFormat('en-IN').format(tarifaSelect?.precio)}</div>
+                          <div>+ Comision de financiamiento: ${new Intl.NumberFormat('en-IN').format(desplieguePagos?.porcentajeFinanciamiento)}</div>
+                          <div>- Pago inicial: ${new Intl.NumberFormat('en-IN').format(currencyTotal?.total)}</div>
+                          <div className='border-t'>Valor a financiar:  ${new Intl.NumberFormat('en-IN').format(desplieguePagos?.totalPaquete)}</div>
+                        </div>
+                      }
+                      {
+                        typePayment === 1 ?<span>Total a pagar: ${currencyTotal ? currencyTotal && `${new Intl.NumberFormat('en-IN').format(currencyTotal.total)} ${currencyTotal?.moneda}` : tarifaSelect &&`${new Intl.NumberFormat('en-IN').format(tarifaSelect.precio)} ${data?.moneda}`}</span>
+                        : <div className='border rounded-lg p-2'>
+                            <span>Aparta con tan solo: ${new Intl.NumberFormat('en-IN').format(currencyTotal.total)} {currencyTotal?.moneda}</span>
+                          </div>
+                      }
                     </div>
                   </div>
                   <img src={data?.portada} alt={data?.url} className='w-full h-full object-cover rounded-lg' />
@@ -193,6 +214,13 @@ const Checkout = (props) => {
                           <span>Planes de financiamento</span>
                           <div className='flex gap-3'>{financiamiento?.map(promotion => <label className='font-semibold w-1/3'><input type="radio" name='promotion' value={promotion} onChange={() => handleSelectFinanciamiento(promotion)}/> {promotion.titulo}</label>)}</div>
                         </div>}
+                        { (selectFinaciamiento && typePayment === 2) && 
+                          <div className='flex flex-col gap-2 w-full px-4 pb-2'>
+                            <span className='rounded-lg p-2 bg-[#2d8ae8] font-semibold'>
+                              {selectFinaciamiento?.npagos} de pagos quincenales de ${new Intl.NumberFormat('en-IN').format(selectFinaciamiento?.cantidadPago)} {currencyTotal?.moneda}
+                            </span>
+                          </div>
+                        }
                         {(typePayment === 2 && selectFinaciamiento)&&<div className='w-full flex items-center justify-center pb-4 px-2'>
                           {clientSecret && (
                             <Elements options={options} stripe={stripePromise}>

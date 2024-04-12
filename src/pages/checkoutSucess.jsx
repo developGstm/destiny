@@ -9,7 +9,7 @@ function CheckoutSucess(props) {
   const query = new URLSearchParams(search);
   console.log(query)
   useEffect(() => {
-    Axios.get(`http://localhost:1337/api/paymentRetrive/${query.get('payment_intent')}`)
+    Axios.get(`https://cms.gstmtravel.com/api/paymentRetrive/${query.get('payment_intent')}`)
     .then(response => {
       setdataPayment(response.data)
     })
