@@ -6,6 +6,7 @@ import Axios from 'axios'
 import modelService from '../models/serviceModel'
 import { useParams } from 'react-router-dom'
 import { Link } from "react-router-dom";
+import Seo from '../components/seo'
 
 const Landing = () => {
   const [loading, setloading] = useState(true)
@@ -41,6 +42,12 @@ const Landing = () => {
 
   return (
     <div>
+        <Seo
+        title={data?.titulo}
+        description={data?.descripcion}
+        name={data?.titulo}
+        type='website'
+      />
       { loading && <div className='fixed top-0 left-0 z-[60] w-full h-screen bg-[#010417] flex items-center justify-center'>
         <div className="circles">
           <div id="counter" className="main-circle"></div>

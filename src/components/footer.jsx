@@ -8,8 +8,8 @@ function footer(props) {
         <div className='grid grid-cols-1 gap-2 md:grid-cols-4 w-full h-full'>
           <div className='flex flex-col gap-8'>
             <img className='w-44' src={ logo } alt="" />
-            <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime temporibus eum totam! Commodi quidem ut mollitia similique, quod delectus et facilis eaque iste ad quos a numquam cupiditate aperiam rerum.
+            <div className='text-sm'>
+              En Destiny Travel, nos enorgullece ofrecerte acceso a destinos exclusivos y auténticos, permitiéndote descubrir el mundo de una manera completamente nueva. Ya sea que necesites asesoramiento para planificar tus vacaciones o asistencia durante tu estancia, estamos disponibles para garantizar que tu experiencia sea perfecta en todo momento.
             </div>
           </div>
           <div className='flex flex-col gap-4'>
