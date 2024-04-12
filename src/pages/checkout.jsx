@@ -7,6 +7,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from '../components/checkoutform'
 import Axios from 'axios'
 import modelService from '../models/serviceModel'
+import Footer from '../components/footer'
 
 const stripePromise = loadStripe("pk_test_51P2mMG057pUUcrQS23N5C5SUH4kOkFfdPoBrLwI3e2CsXZYNo00ynTi8f9TY34La94p4CQpkScoAPvxOr0xuEzr500vajxX1KE", {
   locale: 'es'
@@ -106,20 +107,27 @@ const Checkout = (props) => {
     setselectFinaciamiento(value)
   }
   
+  const handleWhatsApp = () => {
+    const text = `Hola quiero reservar mi paquete ${data.titulo} para el ${fecha} pero tengo algunas dudas, ¿Me podrían ayudar?`
+    window.open(`https://wa.me/17022852381?text=${text.replace(/ /g, "%20")}`)
+  }
+
   if (url) {
     return (
       <div>
         <Menu/>
         <section className='pt-20'>
-          <div></div>
           <div className='mx-auto max-w-7xl p-6 lg:px-8 flex flex-col relative'>
             <div className="header flex w-full justify-center">
               <h1 className='text-white text-center text-2xl'>Reserva</h1>
             </div>
+            <button onClick={() => handleWhatsApp()} className="w-[90%] md:w-[15%] bg-[#ffd603] text-[#010417] fixed z-30 p-2 rounded-lg font-bold flex gap-2 items-center justify-center left-0 bottom-0 right-0 m-auto md:ml-16 mb-2">
+              <i className="fa-brands fa-whatsapp text-xl"></i><span>¿Necesias ayuda?</span>
+            </button>
             <div className="flex flex-col md:flex-row-reverse gap-5 mt-10">
               <div className="md:w-2/3">
                 <div className='w-full h-full relative md:min-h-screen'>
-                  <div className="w-full absolute bottom-0 left-0 z-20 flex flex-col md:flex-row gap-1 text-white">
+                  <div className="w-full absolute bottom-0 left-0 z-20 flex flex-col md:flex-row gap-1 text-white p-2">
                     <div className='md:w-1/2'>
                       <span className='font-bold text-[#ffd603]'>Tu proximo viaje:</span>
                       <h1 className='text-lg font-semibold'>{data?.titulo}</h1>
@@ -135,7 +143,7 @@ const Checkout = (props) => {
                         </div>
                       }
                       {
-                        typePayment === 1 ?<span>Total a pagar: ${currencyTotal ? currencyTotal && `${new Intl.NumberFormat('en-IN').format(currencyTotal.total)} ${currencyTotal?.moneda}` : tarifaSelect &&`${new Intl.NumberFormat('en-IN').format(tarifaSelect.precio)} ${data?.moneda}`}</span>
+                        typePayment === 1 ?<span className='flex justify-end'>Total a pagar: ${currencyTotal ? currencyTotal && `${new Intl.NumberFormat('en-IN').format(currencyTotal.total)} ${currencyTotal?.moneda}` : tarifaSelect &&`${new Intl.NumberFormat('en-IN').format(tarifaSelect.precio)} ${data?.moneda}`}</span>
                         : <div className='border rounded-lg p-2'>
                             <span>Aparta con tan solo: ${new Intl.NumberFormat('en-IN').format(currencyTotal.total)} {currencyTotal?.moneda}</span>
                           </div>
@@ -236,6 +244,7 @@ const Checkout = (props) => {
             </div>
           </div>
         </section>
+        <Footer/> 
       </div>
     )
   } else {

@@ -6,12 +6,20 @@ import modelService from '../models/serviceModel'
 
 function LandingProximamente(props) {
   const [data, setdata] = useState({})
+  const [datados, setdatados] = useState({})
   useEffect(() => {
     Axios.get(`https://cms.gstmtravel.com/api/filterServiceSearch/disneyland-paquete-familiar`)
     .then(response => {
       const data = new modelService(response?.data?.data[0])
       setdata(data)
-      console.log(data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+    Axios.get(`https://cms.gstmtravel.com/api/filterServiceSearch/paquete-disneyworld-familiar`)
+    .then(response => {
+      const data = new modelService(response?.data?.data[0])
+      setdatados(data)
     })
     .catch(err => {
       console.log(err)
@@ -65,7 +73,29 @@ function LandingProximamente(props) {
                     Reservá ahora
                 </a> 
               </div>
-              <img src={data.portada} className='w-full object-cover h-96 rounded-lg' alt="" />
+              <img src={data?.portada} className='w-full object-cover h-96 rounded-lg' alt="" />
+              <div className="bottom-0 left-0 absolute w-full h-full bg-gradient-to-r from-[#010417] from-0%"></div>
+            </div>
+            <div className='w-full relative mt-10'>
+              <div className="absolute left-0 w-full md:w-1/3 z-20 h-full text-white flex flex-col justify-center p-3 gap-2">
+                <h1 className='text-2xl font-bold'>{ datados?.titulo }</h1>
+                <div className='grid grid-cols-2 gap-2'>
+                  {datados?.incluye?.map(item => <span><i className="fa-light fa-circle-check"></i> {item.titulo}</span>)}
+                </div>
+                <div className='flex justify-between'>
+                  <span className='flex gap-1 items-center'>
+                    <i className="fa-sharp fa-light fa-location-dot text-[#ffd603]"></i>
+                    { datados?.ubicacion?.description }
+                  </span>
+                  <span className='flex gap-1 text-sm'>
+                    desde<p className='font-bold'>${new Intl.NumberFormat('en-IN').format(datados?.tarifaBaja?.precio)}<span className='text-xs'>{datados?.moneda}</span></p>
+                  </span>
+                </div>
+                <a href={`${window.location.href}${datados?.type?.type}/${datados?.url}`} className='bg-[#2d8ae8]  rounded p-3 w-full text-white flex justify-center font-bold'>
+                    Reservá ahora
+                </a> 
+              </div>
+              <img src={datados?.portada} className='w-full object-cover h-96 rounded-lg' alt="" />
               <div className="bottom-0 left-0 absolute w-full h-full bg-gradient-to-r from-[#010417] from-0%"></div>
             </div>
           </div>

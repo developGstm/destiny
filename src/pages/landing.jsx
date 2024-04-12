@@ -33,6 +33,12 @@ const Landing = () => {
     })
   }, [])
 
+  const renderizarConSaltosDeLinea = (texto) => {
+    return texto?.split('\n')?.map((linea, index) => {
+      return <React.Fragment key={index}>{linea}<br /></React.Fragment>;
+    });
+  };
+
   const handleOptionSelectDate = (index, option) => {
     let newArray = data?.tarifas;
     newArray[index].optionSelect = data?.tarifas[index]?.fechas ? data?.tarifas[index]?.fechas?.find(item => item.fecha_evento === option) : {fecha_evento: option}
@@ -79,7 +85,9 @@ const Landing = () => {
           <div className='w-full lg:w-3/4'>
             <div className='w-full relative'>
               <h3 className='mb-3'><strong>Descripcion Paquete:</strong></h3>
-              <span dangerouslySetInnerHTML={{__html:data.descripcion}} className={`${!ShowMore && 'h-44'} flex overflow-hidden`}></span>
+              <article className={`${!ShowMore && 'h-44'} flex overflow-hidden`}>
+                {renderizarConSaltosDeLinea(data?.descripcion)}
+              </article>
               { !ShowMore && <div className='w-full px-6 lg:px-8 absolute bottom-0 left z-0 bg-gradient-to-t from-[#010417] from-20% h-44 flex items-end justify-end'> <button className='text-[#ffd603]' onClick={() => setShowMore(true)}>Ver mas</button></div>}
             </div>
             {
@@ -177,7 +185,7 @@ const Landing = () => {
                 <h3 className='mb-3'><strong>Politicas</strong></h3>
                 <button onClick={() => setShowMorePoliticas(true)}><i className="fa-light fa-circle-arrow-down"></i></button>
               </div>
-              { ShowMorePoliticas && <article className='block w-full' dangerouslySetInnerHTML={{__html:data?.politicas}}></article> }
+              { ShowMorePoliticas && <article className='block w-full'>{renderizarConSaltosDeLinea(data?.politicas)}</article> }
             </div>}
           </div>
         </div>
