@@ -118,7 +118,7 @@ const Checkout = (props) => {
             </div>
             <div className="flex flex-col md:flex-row-reverse gap-5 mt-10">
               <div className="md:w-2/3">
-                <div className='w-full h-full relative min-h-screen'>
+                <div className='w-full h-full relative md:min-h-screen'>
                   <div className="w-full absolute bottom-0 left-0 z-20 flex flex-col md:flex-row gap-1 text-white">
                     <div className='md:w-1/2'>
                       <span className='font-bold text-[#ffd603]'>Tu proximo viaje:</span>
@@ -208,7 +208,7 @@ const Checkout = (props) => {
                           )}
                         </div>}
                       </div>
-                      <div  className={`${typePayment === 2 ? 'border-[3px]' : 'border'} ease-out duration-400 rounded-lg text-white text-left flex flex-col`} >
+                      {financiamiento && <div  className={`${typePayment === 2 ? 'border-[3px]' : 'border'} ease-out duration-400 rounded-lg text-white text-left flex flex-col`} >
                         <button className='w-full px-4 py-2 text-left' onClick={() => handleTypePayment(2)}><i className="fa-light fa-credit-card"></i> Plan de Pagos - <span className='font-bold text-[#ffd603]'>Pago inicial de ${data.minimo_apartado} MXN</span></button>
                         {(financiamiento && typePayment ===2) && <div className='w-full flex flex-col px-4 pb-2'>
                           <span>Planes de financiamento</span>
@@ -228,7 +228,7 @@ const Checkout = (props) => {
                             </Elements>
                           )}
                         </div>}
-                      </div>
+                      </div>}
                     </div>
                   </div>}
                 </div>

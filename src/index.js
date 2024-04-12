@@ -12,11 +12,12 @@ import Checkout from './pages/checkout'
 import CheckoutSucess from './pages/checkoutSucess'
 import Login from './pages/login'
 import Register from './pages/register'
+import LandingProximamente from './pages/landingProximamente'
 
 const router = createBrowserRouter([
   {
     path:'/',
-    element:<Home/>
+    element:<LandingProximamente/>
   },
   {
     path:'/checkout/sucess',
@@ -38,6 +39,16 @@ const router = createBrowserRouter([
   },
   {
     path: "/conciertos",
+    element:<Landing/>,
+    children: [
+      {
+        path: ':url',
+        element:<Landing/>,
+      }
+    ]
+  },
+  {
+    path: "/hoteles",
     element:<Landing/>,
     children: [
       {

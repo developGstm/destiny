@@ -20,7 +20,6 @@ const Landing = () => {
     weekdaysShort: 'Dom._Lun._Mar._Mier._Jue._Vier._Sab.'.split('_'),
     weekdaysMin: 'Do_Lu_Ma_Mi_Ju_Vi_Sa'.split('_')
   })
-
   useEffect(() => {
     Axios.get(`https://cms.gstmtravel.com/api/filterServiceSearch/${url}`)
     .then(response => {
@@ -35,7 +34,8 @@ const Landing = () => {
 
   const handleOptionSelectDate = (index, option) => {
     let newArray = data?.tarifas;
-    newArray[index].optionSelect = data?.tarifas[index]?.fechas.find(item => item.fecha_evento === option)
+    newArray[index].optionSelect = data?.tarifas[index]?.fechas ? data?.tarifas[index]?.fechas?.find(item => item.fecha_evento === option) : {fecha_evento: option}
+    console.log(newArray)
     setdata({...data, tarifas: newArray})
   }
 
@@ -113,7 +113,8 @@ const Landing = () => {
                             <span className='font-bold text-xl'>${new Intl.NumberFormat('en-IN').format(tarifa.precio)}</span> <span className='text-sm'>{data?.moneda}/{data?.unidad}</span>
                           </div>
                         </div>
-                        <div className='flex items-end gap-2 w-full flex-col md:flex-row py-3'>
+                        {
+                          tarifa?.fechas ? <div className='flex items-end gap-2 w-full flex-col md:flex-row py-3'>
                           <div className='flex flex-col w-full'>
                             <span className='font-semibold text-white'>Fechas disponibles:</span>
                             <select name="" className='w-full bg-transparent rounded-lg' id='tarifasSelect' onChange={(e) => handleOptionSelectDate(index, e.target.value)}>
@@ -131,8 +132,20 @@ const Landing = () => {
                             </Link> 
                           </div>
                           }
+                        </div> : <div className='w-full flex flex-col md:flex-row gap-3 md:gap-5'>
+                          <div className='flex flex-col  md:w-1/2'>
+                            <h1 className='text-sm font-bold'>Selecciona una fecha:</h1>
+                            <input type="date" className='rounded-lg bg-transparent relative' onChange={(e) => handleOptionSelectDate(index,e.target.value)} />
+                          </div>
+                          { tarifa?.optionSelect && <div className='md:w-1/2 flex items-end justify-end'>
+                            <Link to={`/checkout/${url}/${tarifa.id}/${tarifa?.optionSelect?.fecha_evento}`} className='bg-[#2d8ae8]  rounded p-3 w-full text-white font-bold text-center'>
+                              Reservá ahora
+                            </Link> 
+                          </div>
+                          }
                         </div>
-                          { tarifa?.optionSelect && <div className='w-full flex gap-3 pb-3 flex-col md:flex-row'>
+                        }
+                          { (tarifa?.optionSelect && tarifa.fechas) && <div className='w-full flex gap-3 pb-3 flex-col md:flex-row'>
                             <div className='md:w-1/3 flex gap-3 items-center text-center border rounded-lg p-3'>
                               <i className="fa-sharp fa-light fa-plane-departure text-2xl text-[#ffd603]"></i>
                               <span className='text-xl font-bold'>{moment(tarifa?.optionSelect.fecha_inicio).format('dddd DD MMMM')}</span>
