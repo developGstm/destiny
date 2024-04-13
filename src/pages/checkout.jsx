@@ -122,7 +122,7 @@ const Checkout = (props) => {
               <h1 className='text-white text-center text-2xl'>Reserva</h1>
             </div>
             <button onClick={() => handleWhatsApp()} className="w-[90%] md:w-[15%] bg-[#ffd603] text-[#010417] fixed z-30 p-2 rounded-lg font-bold flex gap-2 items-center justify-center left-0 bottom-0 right-0 m-auto md:ml-16 mb-2">
-              <i className="fa-brands fa-whatsapp text-xl"></i><span>¿Necesias ayuda?</span>
+              <i className="fa-brands fa-whatsapp text-xl"></i><span>¿Quiero reservar?</span>
             </button>
             <div className="flex flex-col md:flex-row-reverse gap-5 mt-10">
               <div className="md:w-2/3">
@@ -157,7 +157,7 @@ const Checkout = (props) => {
               <div className="md:w-1/3 flex flex-col">
                 <div className="flex flex-col border-b py-4">
                   <div className='flex justify-between'><h1 className='text-white text-xl'>Información del viajero</h1> {!showInfoUser && <button className='rounded-lg border p-2 text-white' onClick={() => handleInfo(true)}>Editar</button>}</div>
-                  {showInfoUser &&<form onSubmit={(e)=>handleSave(e)}>
+                  {showInfoUser &&<form onSubmit={(e)=>handleWhatsApp(e)}>
                     <div className='grid grid-cols-1 mt-5 gap-5'>
                       <Input 
                         nombre='nombre' 
@@ -193,7 +193,7 @@ const Checkout = (props) => {
                       />
                     </div>
                     <div className="w-full flex justify-end mt-5 text-white">
-                      <button type='submit' className='rounded-lg border p-2 w-full lg:w-2/3'>Guardar y Continuar</button>
+                      <button type='submit' className='rounded-lg border p-2 w-full lg:w-2/3'>Guardar y Reservar</button>
                     </div>
                   </form>}
                   {!showInfoUser && <div className='flex flex-col gap-1 text-white'>
@@ -202,7 +202,7 @@ const Checkout = (props) => {
                     <span><strong>Telefono:</strong> {dataUser?.telefono}</span>
                   </div>}
                 </div>
-                <div className="flex flex-col border-b py-4">
+                {/*<div className="flex flex-col border-b py-4">
                   <h1 className='text-white text-xl'>Formas de pago</h1>
                   {FormasPago && <div>
                     <div className='grid grid-cols-1 mt-5 gap-5'>
@@ -211,7 +211,7 @@ const Checkout = (props) => {
                         {typePayment === 1 && <div className='w-full flex items-center justify-center pb-4 px-2'>
                           {clientSecret && (
                             <Elements options={options} stripe={stripePromise}>
-                              <CheckoutForm />
+                              <CheckoutForm terminos={data?.politicas}/>
                             </Elements>
                           )}
                         </div>}
@@ -224,22 +224,24 @@ const Checkout = (props) => {
                         </div>}
                         { (selectFinaciamiento && typePayment === 2) && 
                           <div className='flex flex-col gap-2 w-full px-4 pb-2'>
-                            <span className='rounded-lg p-2 bg-[#2d8ae8] font-semibold'>
-                              {selectFinaciamiento?.npagos} de pagos quincenales de ${new Intl.NumberFormat('en-IN').format(selectFinaciamiento?.cantidadPago)} {currencyTotal?.moneda}
+                            <span className='rounded-lg p-2 bg-[#2d8ae8] font-semibold text-center'>
+                              {selectFinaciamiento?.npagos} de pagos mensuales de ${new Intl.NumberFormat('en-IN').format(selectFinaciamiento?.cantidadPago)} {currencyTotal?.moneda}
                             </span>
+                            <span className='text-sm text-center text-[#5f91c4] font-semibold'>*Los pagos se realizan cada primero de mes*</span>
                           </div>
                         }
+                        
                         {(typePayment === 2 && selectFinaciamiento)&&<div className='w-full flex items-center justify-center pb-4 px-2'>
                           {clientSecret && (
                             <Elements options={options} stripe={stripePromise}>
-                              <CheckoutForm />
+                              <CheckoutForm terminos={data?.politicas}/>
                             </Elements>
                           )}
                         </div>}
                       </div>}
                     </div>
                   </div>}
-                </div>
+                </div>*/}
               </div>
             </div>
           </div>

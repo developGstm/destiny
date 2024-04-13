@@ -5,12 +5,13 @@ import {
   useElements
 } from "@stripe/react-stripe-js";
 
-export default function CheckoutForm() {
+export default function CheckoutForm({terminos}) {
   const stripe = useStripe();
   const elements = useElements();
 
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [politicasShow, setpoliticasShow] = useState(false)
 
   useEffect(() => {
     if (!stripe) {
@@ -75,9 +76,27 @@ export default function CheckoutForm() {
     setIsLoading(false);
   };
 
+  const renderizarConSaltosDeLinea = (texto) => {
+    return texto?.split('\n')?.map((linea, index) => {
+      return <React.Fragment key={index}>{linea}<br /></React.Fragment>;
+    });
+  };
+
   return (
     <form id="payment-form" onSubmit={handleSubmit} className="mt-5 w-full">
+      {politicasShow && <div className="fixed left-0 top-0 w-full h-screen flex items-center justify-center z-50">
+        <div className="absolute w-[90%] md:w-1/2 border rounded-lg p-3 bg-[#010417]">
+          <div className="flex justify-end font-bold"><button onClick={() => setpoliticasShow(false)}>x</button></div>
+          <div className="overflow-y-auto max-h-96 mt-5">
+            {
+              terminos && <span>{renderizarConSaltosDeLinea(terminos)}</span>
+            }
+          </div>
+        </div>
+        <div className="w-full h-full bg-[#010417] bg-opacity-90" onClick={() => setpoliticasShow(false)}></div>
+      </div>}
       <PaymentElement id="payment-element" options={{layout: {type: "accordion" }}}/>
+      <label className="p-2 border rounded-lg w-full border-[#081358] mb-5 flex items-center gap-3"><input type="checkbox" required="true" onInvalid={(e) => e.target.setCustomValidity('Acepta nuestros terminos y condiciones')}/><span className="font-semibold">Acepto <button onClick={() => setpoliticasShow(true)} className="border-b">Terminos y Condiciones</button></span></label>
       <button disabled={isLoading || !stripe || !elements} id="submitCheckoutForm">
         <span id="button-text">
           {isLoading ? <div className="spinner" id="spinner"></div> : "Reservar Ahora"}
