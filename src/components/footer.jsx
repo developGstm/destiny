@@ -3,7 +3,7 @@ import logo from '../assets/logo-01.png'
 
 function footer(props) {
   return (
-    <section className='mb-5'>
+    <section className='mb-5 mt-20'>
       <div className="mx-auto max-w-7xl p-6 lg:px-8 bg-[#00020e] text-white rounded-xl flex items-center justify-center">
         <div className='grid grid-cols-1 gap-2 md:grid-cols-4 w-full h-full'>
           <div className='flex flex-col gap-8'>

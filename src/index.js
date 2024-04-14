@@ -12,6 +12,8 @@ import Checkout from './pages/checkout'
 import CheckoutSucess from './pages/checkoutSucess'
 import Login from './pages/login'
 import Register from './pages/register'
+import LandingPromociones from './pages/landingPromociones';
+import Profile from './pages/profile';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +39,16 @@ const router = createBrowserRouter([
     ]
   },
   {
+    path: "/promocion-de-descuento-2024",
+    element:<LandingPromociones/>,
+    children: [
+      {
+        path: ':url',
+        element:<LandingPromociones/>,
+      }
+    ]
+  },
+  {
     path: "/conciertos",
     element:<Landing/>,
     children: [
@@ -53,6 +65,10 @@ const router = createBrowserRouter([
   {
     path: '/register',
     element:<Register/>,
+  },
+  {
+    path: "/sesion",
+    element:<Profile/>,
   }
 ]);
 
