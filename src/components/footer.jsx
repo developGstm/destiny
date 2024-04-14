@@ -52,9 +52,9 @@ function footer(props) {
             <div className='flex flex-col gap-4'>
             <h1 className='text-xl font-bold'>Conectemos</h1>
             <div className='flex gap-7 text-2xl'>
-              <i className="fa-brands fa-square-facebook"></i>
-              <i className="fa-brands fa-instagram"></i>
-              <i className="fa-brands fa-tiktok"></i>
+              <a href="https://www.facebook.com/experience.destiny"><i className="fa-brands fa-square-facebook"></i></a>
+              <a href="https://www.instagram.com/experience.destiny"><i className="fa-brands fa-instagram"></i></a>
+              <a href="https://www.tiktok.com/@experience.destiny"><i className="fa-brands fa-tiktok"></i></a>
             </div>
           </div>
           </div>
