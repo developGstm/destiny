@@ -39,10 +39,14 @@ const Landing = () => {
     });
   };
 
+  const validationUnidad = (type) => {
+    return type === 'dias' ? 'days' : 'hours'
+  }
+
   const handleOptionSelectDate = (index, option) => {
     let newArray = data?.tarifas;
-    newArray[index].optionSelect = data?.tarifas[index]?.fechas ? data?.tarifas[index]?.fechas?.find(item => item.fecha_evento === option) : {fecha_evento: option}
-    console.log(newArray)
+    newArray[index].optionSelect = data?.tarifas[index]?.fechas ? data?.tarifas[index]?.fechas?.find(item => item.fecha_evento === option) : {fecha_inicio: option, fecha_fin:moment(option).add(data?.duracion?.cantidad,validationUnidad(data?.duracion?.unidad)).format('YYYY-MM-DD')}
+    console.log(newArray[index].optionSelect)
     setdata({...data, tarifas: newArray})
   }
 
@@ -160,20 +164,30 @@ const Landing = () => {
                           }
                         </div>
                         }
-                          { (tarifa?.optionSelect && tarifa.fechas) && <div className='w-full flex gap-3 pb-3 flex-col md:flex-row'>
-                            <div className='md:w-1/3 flex gap-3 items-center text-center border rounded-lg p-3'>
-                              <i className="fa-sharp fa-light fa-plane-departure text-2xl text-[#ffd603]"></i>
-                              <span className='text-xl font-bold'>{moment(tarifa?.optionSelect.fecha_inicio).format('dddd DD MMMM')}</span>
-                            </div>
-                            <div className='md:w-1/3 flex gap-3 items-center text-center border rounded-lg p-3'>
-                              <i className="fa-light fa-plane-arrival text-2xl text-[#ffd603]"></i>
-                              <span className='text-xl font-bold'>{moment(tarifa?.optionSelect.fecha_fin).format('dddd DD MMMM')}</span>
-                            </div>
-                            <div className='md:w-1/3 flex gap-3 items-center text-center border rounded-lg p-3'>
-                              <i className="fa-light fa-party-horn text-2xl text-[#ffd603]"></i>
-                              <span className='text-xl font-bold'>{moment(tarifa?.optionSelect.fecha_evento).format('dddd DD MMMM')}</span>
-                            </div>
-                          </div> }
+                        { tarifa?.optionSelect && <div className='w-full flex gap-3 pb-3 flex-col md:flex-row'>
+                          <div className='md:w-1/3 flex gap-3 items-center text-center border rounded-lg p-3'>
+                            <i className="fa-sharp fa-light fa-plane-departure text-2xl text-[#ffd603]"></i>
+                            <span className='text-xl font-bold'>{moment(tarifa?.optionSelect.fecha_inicio).format('dddd DD MMMM YYYY')}</span>
+                          </div>
+                          <div className='md:w-1/3 flex gap-3 items-center text-center border rounded-lg p-3'>
+                            <i className="fa-light fa-plane-arrival text-2xl text-[#ffd603]"></i>
+                            <span className='text-xl font-bold'>{moment(tarifa?.optionSelect.fecha_fin).format('dddd DD MMMM YYYY')}</span>
+                          </div>
+                        </div> }
+                        { (tarifa?.optionSelect && tarifa.fechas) && <div className='w-full flex gap-3 pb-3 flex-col md:flex-row'>
+                          <div className='md:w-1/3 flex gap-3 items-center text-center border rounded-lg p-3'>
+                            <i className="fa-sharp fa-light fa-plane-departure text-2xl text-[#ffd603]"></i>
+                            <span className='text-xl font-bold'>{moment(tarifa?.optionSelect.fecha_inicio).format('dddd DD MMMM YYYY')}</span>
+                          </div>
+                          <div className='md:w-1/3 flex gap-3 items-center text-center border rounded-lg p-3'>
+                            <i className="fa-light fa-plane-arrival text-2xl text-[#ffd603]"></i>
+                            <span className='text-xl font-bold'>{moment(tarifa?.optionSelect.fecha_fin).format('dddd DD MMMM YYYY')}</span>
+                          </div>
+                          <div className='md:w-1/3 flex gap-3 items-center text-center border rounded-lg p-3'>
+                            <i className="fa-light fa-party-horn text-2xl text-[#ffd603]"></i>
+                            <span className='text-xl font-bold'>{moment(tarifa?.optionSelect.fecha_evento).format('dddd DD MMMM YYYY')}</span>
+                          </div>
+                        </div> }
                       </div>
                     )
                   })
@@ -182,7 +196,7 @@ const Landing = () => {
             </div>
             {data.politicas && <div className="mt-10 flex flex-col border-b">
               <div className="flex justify-between">
-                <h3 className='mb-3'><strong>Politicas</strong></h3>
+                <h3 className='mb-3'><strong>Terminos y Condiciones</strong></h3>
                 <button onClick={() => setShowMorePoliticas(true)}><i className="fa-light fa-circle-arrow-down"></i></button>
               </div>
               { ShowMorePoliticas && <article className='block w-full'>{renderizarConSaltosDeLinea(data?.politicas)}</article> }

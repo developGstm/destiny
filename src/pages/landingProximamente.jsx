@@ -7,6 +7,8 @@ import modelService from '../models/serviceModel'
 function LandingProximamente(props) {
   const [data, setdata] = useState({})
   const [datados, setdatados] = useState({})
+  const [email, setemail] = useState('')
+  const [subscrito, setsubscrito] = useState(false)
   useEffect(() => {
     Axios.get(`https://cms.gstmtravel.com/api/filterServiceSearch/disneyland-paquete-familiar`)
     .then(response => {
@@ -25,6 +27,15 @@ function LandingProximamente(props) {
       console.log(err)
     })
   }, [])
+  const handleNewslatter = (e) => {
+    e.preventDefault()
+    Axios.get(`https://cms.gstmtravel.com//api/pruebaEmail/${email}`)
+    .then(response => {
+      if (response?.data?.send === true) {
+        setsubscrito(true)
+      }
+    })
+  }
   return (
     <div>
         <Menu/>
@@ -38,10 +49,13 @@ function LandingProximamente(props) {
                     Este 15 de abril ¡DESPEGAMOS!
                     <strong className="block font-extrabold text-lg py-2"> Nos estamos preparando con grandes sorpresas</strong>
                   </h1>
-                  <form className='rounded-lg w-full bg-transparent text-white border p-1 flex flex-col md:flex-row'>
-                    <input type="email" required placeholder='Registra tu email' className='md:w-2/3 bg-transparent border-0 focus:outline-none focus:ring-0'/>
+                  {!subscrito &&<form className='rounded-lg w-full bg-transparent text-white border p-1 flex flex-col md:flex-row' onSubmit={(e) => handleNewslatter(e)}>
+                    <input type="email" required placeholder='Registra tu email' className='md:w-2/3 bg-transparent border-0 focus:outline-none focus:ring-0' onChange={(e) => setemail(e.target.value)}/>
                     <button className='md:w-1/3 bg-[#ffd603] rounded-lg p-1 font-bold'>Quiero mas aventuras</button>
-                  </form>
+                  </form>}
+                  {subscrito && <h1 className="font-extrabold text-2xl md:text-2xl">
+                    Gracias por subscribirte pronto viajaremos contigo
+                  </h1>}
                 </div>
               </div>
             </div>

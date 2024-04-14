@@ -14,6 +14,10 @@ function modelServicio(servicio) {
   this.ubicacion = servicio?.ubiacion ? JSON.parse(servicio.ubiacion) : null
   this.incluye = servicio?.incluye?.map(item => {return({titulo:item?.titulo, descripcion:item?.descripcion})})
   this.minimo_apartado = servicio?.minimo_apartado;
+  this.duracion = {
+    cantidad: servicio?.tipos_servicio[0]?.duracion,
+    unidad: servicio?.tipos_servicio[0]?.unidad_duracion
+  }
   this.tarifas = servicio?.tipos_servicio[0]?.Tarifas?.map(tarifa => {
     return(
       {
