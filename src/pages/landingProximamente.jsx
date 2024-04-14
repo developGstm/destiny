@@ -29,7 +29,7 @@ function LandingProximamente(props) {
   }, [])
   const handleNewslatter = (e) => {
     e.preventDefault()
-    Axios.get(`https://cms.gstmtravel.com//api/pruebaEmail/${email}`)
+    Axios.get(`https://cms.gstmtravel.com/api/pruebaEmail/${email}`)
     .then(response => {
       if (response?.data?.send === true) {
         setsubscrito(true)
