@@ -38,7 +38,7 @@ const Checkout = (props) => {
       fecha_evento: query.get('fecha_evento'),
       tarifa: query.get('tarifa'),
     })
-    Axios.get(`http://localhost:1337/api/filterServiceSearch/${query.get('url')}`)
+    Axios.get(`https://cms.gstmtravel.com/api/filterServiceSearch/${query.get('url')}`)
     .then(response => {
       const dataModel = new modelService(response?.data?.data[0])
       setTarifaSelect(dataModel?.tarifas?.find(tarifaItem => tarifaItem.id === parseInt(query.get('tarifa'))))
@@ -54,7 +54,7 @@ const Checkout = (props) => {
     e.preventDefault()
     let tarifaSend = tarifaSelect?.titulo
     if (clientSecret === undefined) {
-      fetch("http://localhost:1337/api/paymentIntent", {
+      fetch("https://cms.gstmtravel.com/api/paymentIntent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -116,7 +116,7 @@ const Checkout = (props) => {
     settypePayment(type)
     if (type === 1) {
       setselectFinaciamiento(undefined)
-      fetch("http://localhost:1337/api/paymentIntentUpdate", {
+      fetch("https://cms.gstmtravel.com/api/paymentIntentUpdate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
@@ -140,7 +140,7 @@ const Checkout = (props) => {
   }
 
   const handleSelectFinanciamiento = (value) => {
-    fetch("http://localhost:1337/api/paymentIntentUpdate", {
+    fetch("https://cms.gstmtravel.com/api/paymentIntentUpdate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
@@ -166,7 +166,10 @@ const Checkout = (props) => {
       });
   }
   
-  const handleWhatsApp = () => {
+  const handleWhatsApp = (e) => {
+    if (e) {
+      e.preventDefault()
+    }
     const text = `Hola quiero reservar mi paquete ${data.titulo} para el ${params?.fecha_salida} pero tengo algunas dudas, ¿Me podrían ayudar?`
     window.open(`https://wa.me/17022852381?text=${text.replace(/ /g, "%20")}`)
   }
@@ -190,7 +193,9 @@ const Checkout = (props) => {
                     <div className='md:w-1/2'>
                       <span className='font-bold text-[#ffd603]'>Tu proximo viaje:</span>
                       <h1 className='text-lg font-semibold'>{data?.titulo}</h1>
-                      <span>{tarifaSelect && tarifaSelect.titulo} | {params?.fecha_salida | params?.fecha_llegada | params?.fecha_evento}</span>
+                      <div className='flex flex-col'><span>{tarifaSelect && tarifaSelect.titulo}</span> 
+                      <div><i className="fa-sharp fa-light fa-plane-departure text-sm text-[#ffd603]"></i> {params?.fecha_salida} | <i className="fa-light fa-plane-arrival text-sm text-[#ffd603]"></i> {params?.fecha_llegada} | {params?.fecha_evento !== 'undefined' && <span><i className="fa-sharp fa-light fa-plane-departure text-2xl text-[#ffd603]"></i> {params?.fecha_evento}</span>}</div>
+                      </div>
                     </div>
                     <div className="md:w-1/2 flex md:justify-end text-sm font-bold flex-col gap-3">
                       {
@@ -221,7 +226,7 @@ const Checkout = (props) => {
               <div className="md:w-1/3 flex flex-col">
                 <div className="flex flex-col border-b py-4">
                   <div className='flex justify-between'><h1 className='text-white text-xl'>Información del viajero</h1> {!showInfoUser && <button className='rounded-lg border p-2 text-white' onClick={() => handleInfo(true)}>Editar</button>}</div>
-                  {showInfoUser &&<form onSubmit={(e)=>handleSave(e)}>
+                  {showInfoUser &&<form onSubmit={(e)=>handleWhatsApp(e)}>
                     <div className='grid grid-cols-1 mt-5 gap-5'>
                       <Input 
                         nombre='nombre' 
