@@ -11,6 +11,7 @@ import hawaii from './assets/hawaii.webp'
 import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
 import axios from 'axios'
 import SectionType from './components/sectionType'
+import Header from './components/header';
 
 const Home = () => {  
   const [firstQuestion, setfirstQuestion] = useState(1)
@@ -191,61 +192,14 @@ const Home = () => {
   return (
     <div>
       <Menu/>
-      <section className='w-full h-screen bg-no-repeat bg-cover relative'>
-        <div className="hero w-full">
-          <div className="w-full absolute top left z-10 h-full">
-            <div className="mx-auto max-w-7xl p-6 lg:px-8 h-full">
-              <div className="w-100 md:w-1/2 h-full text-white flex justify-center flex-col">
-                <h1 className="font-extrabold text-5xl">
-                  <span className='text-base block text-[#40caf4]'>March 24 & 25, 2023 | Allegiant Stadium</span>
-                  TAYLOR SWIFT
-                  <strong className="lg:block font-extrabold"> THE ERAS TOUR</strong>
-                </h1>
-                <button className='bg-[#2d8ae8] lg:w-1/2 my-3 rounded p-3'>
-                  Reserva Ahora
-                </button>
-              </div>
-            </div>
-          </div>
-          <img className='w-full h-screen object-cover' src={Fondo} alt="" />
-        </div>
-        <div className='w-full absolute bottom-0 left z-0 bg-gradient-to-t from-[#010417] from-10% min-h-full'></div>
-        <div className="w-full absolute z-10 -bottom-20 left text-white">
-          <div className="mx-auto max-w-7xl p-6">
-            <h1 className="font-extrabold text-5xl lg:text-3xl mb-5">
-              Proximos Eventos
-            </h1>
-            <div className="events">
-              <Slider {...settings}>
-                <div className="relative rounded-lg">
-                  <div className="absolute bg-[#2d8ae8] right-0 bottom-2 p-1 rounded">
-                    <span className='text-sm font-bold'>+ Paquete</span>
-                  </div>
-                  <img src="https://e.rpp-noticias.io/xlarge/2024/03/20/434043_1555451.webp" className='rounded-lg' alt="" />
-                </div>
-                <div className="rounded-lg relative">
-                  <div className="absolute bg-[#2d8ae8] right-0 bottom-2 p-1 rounded">
-                    <span className='text-sm font-bold'>+ Paquete</span>
-                  </div>
-                  <img className='rounded-lg' src="https://cloudfront-us-east-1.images.arcpublishing.com/infobae/S5VBI4BY6FDSVD3YS65LXXWTIE.jpg" alt="" />
-                </div>
-                <div className="rounded-lg relative">
-                  <div className="absolute bg-[#2d8ae8] right-0 bottom-2 p-1 rounded">
-                    <span className='text-sm font-bold'>+ Paquete</span>
-                  </div>
-                  <img className='rounded-lg' src="https://static.euronews.com/articles/stories/08/05/70/80/1440x810_cmsv2_c25643a5-bebb-515c-860d-6d6824cccebb-8057080.jpg" alt="" />
-                </div>
-                <div className="rounded-lg relative">
-                < div className="absolute bg-[#2d8ae8] right-0 bottom-2 p-1 rounded">
-                    <span className='text-sm font-bold'>+ Paquete</span>
-                  </div>
-                  <img className='rounded-lg' src="https://i.ytimg.com/vi/1-2ECytiPtk/maxresdefault.jpg" alt="" />
-                </div>
-              </Slider>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Header 
+        titulo='TAYLOR SWIFT' 
+        subtitulo='THE ERAS TOUR'
+        fechas="March 24 & 25, 2023 | Allegiant Stadium" 
+        boton='Reserva Ahora' 
+        background={ Fondo }
+        eventos={true}
+        />
       <section className='mt-24'>
         <div className="mx-auto max-w-7xl p-6 lg:px-8">
           <h1 className="font-extrabold text-5xl mb-5 text-white lg:text-6xl">

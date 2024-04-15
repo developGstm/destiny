@@ -14,6 +14,12 @@ import Login from './pages/login'
 import Register from './pages/register'
 import LandingProximamente from './pages/landingProximamente'
 import { HelmetProvider } from 'react-helmet-async';
+import LandingPromociones from './pages/landingPromociones';
+import Profile from './pages/profile';
+import { Provider } from 'react-redux';
+import { store, persistore } from './redux/store'; // Importa el store y el persistor de Redux Persist
+import { PersistGate } from 'redux-persist/integration/react';
+
 const router = createBrowserRouter([
   {
     path:'/',
@@ -31,6 +37,16 @@ const router = createBrowserRouter([
         path: 'sucess',
         element: <CheckoutSucess />
       },
+    ]
+  },
+  {
+    path: "/promocion-de-descuento-2024",
+    element:<LandingPromociones/>,
+    children: [
+      {
+        path: ':url',
+        element:<LandingPromociones/>,
+      }
     ]
   },
   {
@@ -70,6 +86,10 @@ const router = createBrowserRouter([
   {
     path: '/register',
     element:<Register/>,
+  },
+  {
+    path: "/sesion",
+    element:<Profile/>,
   }
 ]);
 
@@ -77,7 +97,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <HelmetProvider>
-      <RouterProvider router={router} />
+           <Provider store={store}>
+        <PersistGate persistor={persistore}> 
+        <RouterProvider router={router} />
+        </PersistGate>
+      </Provider>
     </HelmetProvider>
   </React.StrictMode>
 );
