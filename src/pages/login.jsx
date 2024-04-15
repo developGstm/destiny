@@ -25,18 +25,15 @@ function Login(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    dataUser.username = dataUser.email;
-    try {
-      const respuesta = await axios.post('https://cms.gstmtravel.com/api/auth/local/', dataUser);
-      dispatch(loginSuccess({isLoading:false,usuario:respuesta.data,activeLogin:true}));   
+    dataUser.username = dataUser?.email;
+    await axios.post('https://cms.gstmtravel.com/api/auth/local/', dataUser)
+    .then(response => {
+      dispatch(loginSuccess({isLoading:false,usuario:response?.data?.user,activeLogin:true}));   
       navigate('/');
-      // Manejar la respuesta del servidor, redirigir, etc.
-    } catch (error) {
-      // Manejar el error, mostrar un mensaje al usuario, etc.
-      if ( error.response.data.error.message === 'Invalid identifier or password' ) {
-          setError('Usuario ó contraseña inválida');
-      }
-    }
+    }).catch(error => {
+      setError('Usuario ó contraseña inválida');
+    })
+    
   };
 
   return (

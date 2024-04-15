@@ -1,6 +1,6 @@
 import React, { useState, useRef} from 'react'
 import Menu from './components/menu'
-import Fondo from './assets/taylor.webp'
+import Fondo from './assets/bali.jpg'
 import Slider from "react-slick";
 import Footer from './components/footer'
 import "slick-carousel/slick/slick.css";
@@ -193,14 +193,13 @@ const Home = () => {
     <div>
       <Menu/>
       <Header 
-        titulo='TAYLOR SWIFT' 
-        subtitulo='THE ERAS TOUR'
-        fechas="March 24 & 25, 2023 | Allegiant Stadium" 
-        boton='Reserva Ahora' 
+        titulo='¡Gana un Viaje a <span class="text-[#ffd603]">Bali</span>!' 
+        subtitulo='Con Nuestros Influencers Favoritos'
+        fechas="14 Días de Aventura Gratuita con nosotros" 
         background={ Fondo }
         eventos={true}
         />
-      <section className='mt-24'>
+      {/*<section className='mt-24'>
         <div className="mx-auto max-w-7xl p-6 lg:px-8">
           <h1 className="font-extrabold text-5xl mb-5 text-white lg:text-6xl">
             Encuentra tu 
@@ -253,8 +252,8 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </section>
-      <SectionType type='tour' title={'Tu Próximo<span class="block"><span class="text-[#ffd603]">Viaje</span> Inicia Aquí</span> '}/>
+        </section> */}
+      <SectionType clase='md:mt-24' type='tour' title={'Tu Próximo<span class="block"><span class="text-[#ffd603]">Viaje</span> Inicia Aquí</span> '}/>
       <SectionType type='concierto' title={'Tus artistas <span class="block text-[#ffd603]">Favoritos</span>'}/>
       <SectionType type='hotel' title={'Los lugares <span class="block text-[#ffd603]">Mas maravillosos</span>'}/>
       <section className='mb-10'>

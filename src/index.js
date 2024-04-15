@@ -44,7 +44,7 @@ const router = createBrowserRouter([
     element:<LandingPromociones/>,
     children: [
       {
-        path: ':url',
+        path: ':slug',
         element:<LandingPromociones/>,
       }
     ]
@@ -88,7 +88,7 @@ const router = createBrowserRouter([
     element:<Register/>,
   },
   {
-    path: "/sesion",
+    path: "/mi-perfil",
     element:<Profile/>,
   }
 ]);

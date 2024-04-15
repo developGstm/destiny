@@ -45,7 +45,7 @@ const FormRegister = ({ img,imgPerfil,codigo }) => {
         try {
           const respuesta = await axios.post('https://cms.gstmtravel.com/api/auth/local/register', dataUser);
           if (respuesta.data.jwt) {
-          dispatch(loginSuccess({isLoading:false,usuario:respuesta.data,activeLogin:true}));  
+          dispatch(loginSuccess({isLoading:false,usuario:respuesta?.data?.user,activeLogin:true}));  
             navigate('/');
           }       
           // Manejar la respuesta del servidor, redirigir, etc.
@@ -117,8 +117,8 @@ const FormRegister = ({ img,imgPerfil,codigo }) => {
             type='text'
             /> 
          }
-        <div> <input type="checkbox" id="subscribeNews" name="subscribe" value="newsletter" checked={isChecked} onChange={handleToggle} /> <span>Quiero recibir noticias y descuentos futuros</span> </div>
-        <input type="submit" className='bg-[#2d8ae8] rounded p-3' value='Registrarse'/>
+        <div><input type="checkbox" id="subscribeNews" name="subscribe" value="newsletter" checked={isChecked} onChange={handleToggle} /> <span>Quiero recibir noticias y descuentos futuros</span> </div>
+        <button type="submit" className='bg-[#2d8ae8] rounded p-3' >Registrarse</button>
       </form>
     </div>
    {img ? <img src={ img } className='hidden md:flex md:w-1/2 object-cover' alt="" /> : '' } 

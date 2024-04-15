@@ -10,7 +10,7 @@ function LandingProximamente(props) {
   const [email, setemail] = useState('')
   const [subscrito, setsubscrito] = useState(false)
   useEffect(() => {
-    Axios.get(`http://localhost:1337/api/filterServiceSearch/disneyland-paquete-familiar`)
+    Axios.get(`https://cms.gstmtravel.com/api/filterServiceSearch/disneyland-paquete-familiar`)
     .then(response => {
       const data = new modelService(response?.data?.data[0])
       setdata(data)
@@ -18,7 +18,7 @@ function LandingProximamente(props) {
     .catch(err => {
       console.log(err)
     })
-    Axios.get(`http://localhost:1337/api/filterServiceSearch/paquete-disneyworld-familiar`)
+    Axios.get(`https://cms.gstmtravel.com/api/filterServiceSearch/paquete-disneyworld-familiar`)
     .then(response => {
       const data = new modelService(response?.data?.data[0])
       setdatados(data)
@@ -29,7 +29,7 @@ function LandingProximamente(props) {
   }, [])
   const handleNewslatter = (e) => {
     e.preventDefault()
-    Axios.get(`http://localhost:1337/api/pruebaEmail/${email}`)
+    Axios.get(`https://cms.gstmtravel.com/api/pruebaEmail/${email}`)
     .then(response => {
       if (response?.data?.send === true) {
         setsubscrito(true)

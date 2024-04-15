@@ -12,7 +12,7 @@ const Header = ({ titulo,subtitulo,fechas,boton=false,background,eventos }) => {
                 <h1 className="font-extrabold text-5xl">
                   <span className='text-base block text-[#40caf4]'>{ fechas }</span>
                     <span dangerouslySetInnerHTML={{__html:titulo}}></span> 
-                  <strong className="lg:block font-extrabold"> {subtitulo }</strong>
+                  <strong className="lg:block font-extrabold text-4xl"> {subtitulo }</strong>
                 </h1>
                 { boton !== false &&               
                     <button className='bg-[#2d8ae8] lg:w-1/2 my-3 rounded p-3'>
@@ -25,7 +25,6 @@ const Header = ({ titulo,subtitulo,fechas,boton=false,background,eventos }) => {
           <img className='w-full h-screen object-cover' src={background} alt="" />
         </div>
         <div className='w-full absolute bottom-0 left z-0 bg-gradient-to-t from-[#010417] from-10% min-h-full'></div>
-       { eventos === true ? <ProximosEventos/> : '' } 
       </section>
   )
 }

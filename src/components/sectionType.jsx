@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react'
 import Axios from 'axios'
 import modelServices from '../models/servicesModel'
 
-function SectionType({type, title}) {
+function SectionType({type, title, clase}) {
   const [tickets, settickets] = useState([])
   useEffect(() => {
-    Axios.get(`http://localhost:1337/api/filterService/${type}`)
+    Axios.get(`https://cms.gstmtravel.com/api/filterService/${type}`)
     .then(response => {
       const tickets = new modelServices(response?.data)
       settickets(tickets)
@@ -15,14 +15,27 @@ function SectionType({type, title}) {
     })
   }, [])
 
+  const handleType = (type) => {
+    switch (type) {
+      case 'tour':
+        return 'tours'
+      case 'hotel':
+        return 'hoteles'
+      case 'concierto':
+        return 'conciertos'
+      default:
+        return '';
+    }
+  }
+
   if (tickets?.servicios?.length > 0) {
     return (
-      <section>
+      <section className={clase}>
         <div className="mx-auto max-w-7xl p-6 lg:px-8">
           <h1 className="font-extrabold text-5xl mb-5 text-white lg:text-6xl" dangerouslySetInnerHTML={{__html: title}}>
           </h1>
           <div className="gallery-tickets">
-            <div className="mt-8 grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4 w-full h-full">
+            <div className="mt-8 grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4 w-full">
               {tickets?.servicios?.map((item, index) => {
                 if (index < 4) {
                   return(
@@ -52,7 +65,7 @@ function SectionType({type, title}) {
               )}
             </div>
             <div className='flex items-end justify-end text-[#ffd603] mt-2'>
-              <button>Ver mas</button>
+              <a href={`/${handleType(type)}`}>Ver más</a>
             </div>
           </div>
         </div>

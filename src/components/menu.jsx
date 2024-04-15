@@ -30,12 +30,12 @@ function classNames(...classes) {
 }
 
 function Menu() {
-
   const dispatch = useDispatch();
   const isUserActive = useSelector(state => state.auth.activeLogin);
   const user = useSelector(state => state.auth.usuario);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const [activeSubMenu, setactiveSubMenu] = useState(false)
 
   const handleLoginOut = () => {
     dispatch(logout());
@@ -63,31 +63,40 @@ function Menu() {
           <a href="/" className="text-sm font-semibold leading-6 text-white cursor-pointer">
             Inicio
           </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-white cursor-pointer">
+          <a href="/tours" className="text-sm font-semibold leading-6 text-white cursor-pointer">
             Viajes
           </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-white cursor-pointer">
+          <a href="/conciertos" className="text-sm font-semibold leading-6 text-white cursor-pointer">
             Conciertos
           </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-white cursor-pointer">
-            Eventos
-          </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-white cursor-pointer">
+          <a href="/hoteles" className="text-sm font-semibold leading-6 text-white cursor-pointer">
             Hoteles
           </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-white cursor-pointer">
-            Tour
-          </a>
-          { isUserActive && <a href='/sesion' className="text-sm font-semibold leading-6 text-white cursor-pointer"><i class="fa-solid fa-user text-white"></i><span className='ml-2'>{ user.user.nombre }</span></a> }
-          { isUserActive ? <a className="text-sm font-semibold leading-6 text-white cursor-pointer" onClick={handleLoginOut} > Cerrar Sesion</a> : <a href="/login" className="text-sm font-semibold leading-6 text-white cursor-pointer"> Iniciar Sesión / Registrate </a> }
+          { isUserActive ?
+            <div className='relative'>
+              <button className="flex gap-2 text-[#ffff] font-semibold items-center" onClick={() => setactiveSubMenu(!activeSubMenu)}>
+                <i class="fa-solid fa-user text-[#ffff]"></i>
+                <span className='ml-2'>Hola!, { user?.nombre }</span>
+                <i className="fa-sharp fa-regular fa-circle-chevron-down text-[#ffff]"></i>
+              </button>
+              {activeSubMenu && 
+                <div className="flex flex-col gap-2 border-2 rounded-lg absolute w-full mt-3 bg-[#010417]">
+                <a href='/mi-perfil' className="font-semibold text-sm leading-7 text-[#ffff] text-right p-2 border-b-2">
+                  Mi perfil
+                </a> 
+                <button className="text-sm font-semibold text-[#ffff] text-right p-2" onClick={handleLoginOut} > Cerrar Sesion</button>
+                </div>}
+            </div> : 
+            <a href="/login" className="text-sm font-semibold leading-6 text-white cursor-pointer"> Iniciar Sesión / Registrate </a>
+          }
 
         </Popover.Group>
       </nav>
       <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
-        <div className="fixed inset-0 z-10" />
-        <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+        <div className="fixed z-50" />
+        <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-[#010417] px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <a href="#" className="-m-1.5 p-1.5">
+            <a href="/" className="-m-1.5 p-1.5">
               <img
                 className="w-16"
                 src={ logo }
@@ -96,7 +105,7 @@ function Menu() {
             </a>
             <button
               type="button"
-              className="-m-2.5 rounded-md p-2.5 text-gray-700"
+              className="-m-2.5 rounded-md p-2.5 text-[#fff]"
               onClick={() => setMobileMenuOpen(false)}
             >
               <span className="sr-only">Close menu</span>
@@ -108,46 +117,54 @@ function Menu() {
               <div className="space-y-2 py-6">                
                 <a
                   href="/"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-[#fff] hover:bg-gray-50"
                 >
                    Inicio
                 </a>
                 <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  href="/tours"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-[#fff] hover:bg-gray-50"
                 >
                    Viajes
                 </a>
                 <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  href="/conciertos"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-[#fff] hover:bg-gray-50"
                 >
                   Conciertos
                 </a>
                 <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Eventos
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  href="/hoteles"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-[#fff] hover:bg-gray-50"
                 >
                   Hoteles
                 </a>
                 <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  href="/tours"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-[#fff] hover:bg-gray-50"
                 >
                   Tour
                 </a>
 
               </div>
               <div className="py-6">
-
-                { isUserActive && <a href='/sesion' className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"><i class="fa-solid fa-user text-gray-900"></i><span className='ml-2'>{ user.user.nombre }</span></a> }
-                { isUserActive ? <a className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" onClick={handleLoginOut} > Cerrar Sesion</a> : <a href="/login" className="text-sm font-semibold leading-6 text-white cursor-pointer"> Iniciar Sesión / Registrate </a> }
+                { isUserActive ?
+                  <div className='relative'>
+                    <button className="flex gap-2 text-[#ffff] font-semibold items-center" onClick={() => setactiveSubMenu(!activeSubMenu)}>
+                      <i class="fa-solid fa-user text-[#ffff]"></i>
+                      <span className='ml-2'>Hola!, { user?.nombre }</span>
+                      <i className="fa-sharp fa-regular fa-circle-chevron-down text-[#ffff]"></i>
+                    </button>
+                    {activeSubMenu && 
+                      <div className="flex flex-col gap-2 border-2 rounded-lg w-full mt-3 bg-[#010417]">
+                      <a href='/mi-perfil' className="font-semibold text-sm leading-7 text-[#ffff] text-right p-2 border-b-2">
+                        Mi perfil
+                      </a> 
+                      <button className="text-sm font-semibold text-[#ffff] text-right p-2" onClick={handleLoginOut} > Cerrar Sesion</button>
+                      </div>}
+                  </div> : 
+                  <a href="/login" className="text-sm font-semibold leading-6 text-white cursor-pointer"> Iniciar Sesión / Registrate </a>
+                }
               </div>
             </div>
           </div>
