@@ -9,6 +9,9 @@ import {
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
 import logo from '../assets/logo-01.png'
+import { logout } from '../redux/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const products = [
   { name: 'Deportes', description: 'Los mejores eventos deportivos del mundo', href: '#', icon: ChartPieIcon },
@@ -26,9 +29,18 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-function Menu(props) {
+function Menu() {
 
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const dispatch = useDispatch();
+  const isUserActive = useSelector(state => state.auth.activeLogin);
+  const user = useSelector(state => state.auth.usuario);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLoginOut = () => {
+    dispatch(logout());
+    navigate('/');
+  }
   return (
     <header className="w-full absolute top left z-50 bg-gradient-to-b from-[#121212] ">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8 relative" aria-label="Global">
@@ -48,27 +60,27 @@ function Menu(props) {
           </button>
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
-          <a href="#" className="text-sm font-semibold leading-6 text-white">
+          <a href="/" className="text-sm font-semibold leading-6 text-white cursor-pointer">
             Inicio
           </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-white">
+          <a href="#" className="text-sm font-semibold leading-6 text-white cursor-pointer">
             Viajes
           </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-white">
+          <a href="#" className="text-sm font-semibold leading-6 text-white cursor-pointer">
             Conciertos
           </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-white">
+          <a href="#" className="text-sm font-semibold leading-6 text-white cursor-pointer">
             Eventos
           </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-white">
+          <a href="#" className="text-sm font-semibold leading-6 text-white cursor-pointer">
             Hoteles
           </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-white">
+          <a href="#" className="text-sm font-semibold leading-6 text-white cursor-pointer">
             Tour
           </a>
-          <a href="/login" className="text-sm font-semibold leading-6 text-white">
-            Iniciar Sesión / Registrate
-          </a>
+          { isUserActive && <a href='/sesion' className="text-sm font-semibold leading-6 text-white cursor-pointer"><i class="fa-solid fa-user text-white"></i><span className='ml-2'>{ user.user.nombre }</span></a> }
+          { isUserActive ? <a className="text-sm font-semibold leading-6 text-white cursor-pointer" onClick={handleLoginOut} > Cerrar Sesion</a> : <a href="/login" className="text-sm font-semibold leading-6 text-white cursor-pointer"> Iniciar Sesión / Registrate </a> }
+
         </Popover.Group>
       </nav>
       <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
@@ -93,58 +105,49 @@ function Menu(props) {
           </div>
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
-              <div className="space-y-2 py-6">
-                <Disclosure as="div" className="-mx-3">
-                  {({ open }) => (
-                    <>
-                      <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                        Product
-                        <ChevronDownIcon
-                          className={classNames(open ? 'rotate-180' : '', 'h-5 w-5 flex-none')}
-                          aria-hidden="true"
-                        />
-                      </Disclosure.Button>
-                      <Disclosure.Panel className="mt-2 space-y-2">
-                        {[...products, ...callsToAction].map((item) => (
-                          <Disclosure.Button
-                            key={item.name}
-                            as="a"
-                            href={item.href}
-                            className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                          >
-                            {item.name}
-                          </Disclosure.Button>
-                        ))}
-                      </Disclosure.Panel>
-                    </>
-                  )}
-                </Disclosure>
+              <div className="space-y-2 py-6">                
                 <a
-                  href="#"
+                  href="/"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  Features
+                   Inicio
                 </a>
                 <a
                   href="#"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  Marketplace
+                   Viajes
                 </a>
                 <a
                   href="#"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  Company
+                  Conciertos
                 </a>
+                <a
+                  href="#"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                >
+                  Eventos
+                </a>
+                <a
+                  href="#"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                >
+                  Hoteles
+                </a>
+                <a
+                  href="#"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                >
+                  Tour
+                </a>
+
               </div>
               <div className="py-6">
-                <a
-                  href="/login"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Log in
-                </a>
+
+                { isUserActive && <a href='/sesion' className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"><i class="fa-solid fa-user text-gray-900"></i><span className='ml-2'>{ user.user.nombre }</span></a> }
+                { isUserActive ? <a className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" onClick={handleLoginOut} > Cerrar Sesion</a> : <a href="/login" className="text-sm font-semibold leading-6 text-white cursor-pointer"> Iniciar Sesión / Registrate </a> }
               </div>
             </div>
           </div>

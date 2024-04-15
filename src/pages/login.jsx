@@ -1,12 +1,43 @@
 import React, {useState} from 'react'
 import Menu from '../components/menu'
 import Input from '../components/input'
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginStart, loginSuccess, loginFailure } from '../redux/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 function Login(props) {
-  const [dataUser, setdataUser] = useState({})
+
+  const dispatch = useDispatch();
+  const isLoading = useSelector(state => state.auth.isLoading);
+  const [error,setError] = useState(null);
+  const user = useSelector(state => state.auth.usuario);
+  const navigate = useNavigate();
+
+  const [dataUser, setdataUser] = useState({
+    identifier: '',
+    password: ''
+  });
+
   const handleInput = (name,value) => {
     setdataUser({...dataUser, [name]: value})
   }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    dataUser.username = dataUser.email;
+    try {
+      const respuesta = await axios.post('https://cms.gstmtravel.com/api/auth/local/', dataUser);
+      dispatch(loginSuccess({isLoading:false,usuario:respuesta.data,activeLogin:true}));   
+      navigate('/');
+      // Manejar la respuesta del servidor, redirigir, etc.
+    } catch (error) {
+      // Manejar el error, mostrar un mensaje al usuario, etc.
+      if ( error.response.data.error.message === 'Invalid identifier or password' ) {
+          setError('Usuario ó contraseña inválida');
+      }
+    }
+  };
 
   return (
     <div>
@@ -14,15 +45,15 @@ function Login(props) {
       <section className='w-full h-screen flex justify-center items-center p-6 lg:px-8'>
         <div className="md:w-1/2 border rounded text-white flex lg:flex-row mt-10">
           <div className='w-full p-5 md:w-1/2'>
-            <form onSubmit='' className='flex flex-col gap-5'>
+            <form onSubmit={ handleSubmit } className='flex flex-col gap-5'>
               <span className='flex flex-col'>
                 <h1 className='text-3xl font-bold'>Iniciar sesion</h1>
                 <span className='text-sm font-semibold'>Accede a un sinfín de opciones de viaje con una sola cuenta</span>
               </span>
               <Input 
-              nombre='nombre' 
+              nombre='identifier' 
               funcion={handleInput} 
-              valor={dataUser?.email} 
+              valor={dataUser?.identifier} 
               requerido={true} 
               placeHolder='Email' 
               type='email'
@@ -35,18 +66,13 @@ function Login(props) {
               placeHolder='Password' 
               type='password'
               />
+              {error && <p className=' text-red-600'>¡{error}!</p>}
+            
               <div>
                 <a href="" className='text-blue-500'>Olvidaste tu contraseña?</a>
               </div>
-              <button className='bg-[#2d8ae8] rounded p-3'>Iniciar sesion</button>
+              <input type="submit" className='bg-[#2d8ae8] rounded p-3' value='Iniciar sesion'/>
             </form>
-            <div className='flex flex-col mt-5 gap-3'>
-              <span className='text-blue-900 text-sm'>Inicia sesion con</span>
-              <div className="flex gap-3">
-                <button className='border rounded p-1 w-1/2'>Facebook</button>
-                <button className='border rounded p-1 w-1/2'>Google</button>
-              </div>
-            </div>
             <div className='flex mt-5 items-center gap-2'>
               <span className='text-blue-900 text-sm'>¿Aun no tienes cuenta?</span>
               <a href="/register" className='font-bold'>Registrate</a>

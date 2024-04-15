@@ -14,6 +14,9 @@ import Login from './pages/login'
 import Register from './pages/register'
 import LandingPromociones from './pages/landingPromociones';
 import Profile from './pages/profile';
+import { Provider } from 'react-redux';
+import { store, persistore } from './redux/store'; // Importa el store y el persistor de Redux Persist
+import { PersistGate } from 'redux-persist/integration/react';
 
 const router = createBrowserRouter([
   {
@@ -75,7 +78,13 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-      <RouterProvider router={router} />
+     
+      <Provider store={store}>
+        <PersistGate persistor={persistore}> 
+        <RouterProvider router={router} />
+        </PersistGate>
+      </Provider>
+
   </React.StrictMode>
 );
 

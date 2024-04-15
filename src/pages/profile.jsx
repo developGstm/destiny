@@ -1,15 +1,19 @@
-import React from 'react';
+import React,{ useEffect, useState } from 'react';
 import Menu from '../components/menu';
 import Footer from '../components/footer';
-import Header from '../components/header';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Profile = () => {
+  const user = useSelector(state => state.auth.usuario);
+  const [isViajes,setIsViajes] = useState(false);
+  
   return (
     <div>
+      <Menu/>
       <div className='px-5 mt-10 lg:flex lg:items-center lg:flex-col max-w-screen-2xl'>
         <div className='lg:flex justify-evenly items-center'>
           <div className='mt-50 text-white mb-10 lg:w-1/3'>
-            <h4>Hola <span className='text-[#ffd603]'> Noe Aviles </span></h4>
+            <h4>Hola <span className='text-[#ffd603]'> { user?.user?.nombre } </span></h4>
             <p> ¡Bienvenido a tu panel de control personalizado! Aquí encontrarás toda la información relevante sobre tus viajes. Desde esta plataforma, podrás acceder y dar seguimiento a tus itinerarios, fechas importantes y costos asociados. Todo lo que necesitas para planificar y organizar tus viajes está al alcance de tu mano en este panel de control. ¡Empieza a explorar y gestiona tus aventuras de manera fácil y conveniente!</p>
           </div>
           <div className='border rounded-sm text-white mb-10 lg:w-1/3'>
@@ -18,11 +22,11 @@ const Profile = () => {
             </div>
             <div className='p-2 flex text-white items-center'>
               <img className='h-20 w-20 object-cover rounded-full' src="https://img.freepik.com/foto-gratis/retrato-hermoso-mujer-joven-posicion-pared-gris_231208-10760.jpg?size=626&ext=jpg&ga=GA1.1.1488620777.1712966400&semt=sph" alt="" />
-              <div className='ml-5 text-2xl'><span>Noe Aviles</span></div>
+              <div className='ml-5 text-2xl'><span>{ user?.user?.nombre }</span></div>
             </div>
             <div className='p-4'>
-              <p>Correo: <span className='text-[#ffd603]'> noe.aviles@gmail.com </span></p>
-              <p>Teléfono: <span className='text-[#ffd603]'> 322-193-99-83 </span></p>
+              <p>Correo: <span className='text-[#ffd603]'> { user?.user?.email } </span></p>
+              <p>Teléfono: <span className='text-[#ffd603]'>  { user?.user?.telefono }  </span></p>
             </div>
             <div className='p-2'>
               <div className=' bg-blue-600 w-30 text-center rounded h-10 flex justify-center items-center cursor-pointer'> Editar </div>
@@ -34,7 +38,7 @@ const Profile = () => {
             <div className='border  p-2'>
               <h5 className='font-bold text-2xl'>Tus Viajes</h5>
             </div>
-           <div className='lg:flex lg:items-center'>
+           { isViajes ? <div className='lg:flex lg:items-center'>
             <div className='lg:w-1/3'>
               <div className='border overflow-hidden'>
                 <img src="https://lumiere-a.akamaihd.net/v1/images/disney_100_en_disneyland_resort_1_d1e37e03.jpeg?region=36,0,1067,599" alt="" />
@@ -69,7 +73,7 @@ const Profile = () => {
                   <p className='font-bold'> Costo: <span className='text-[#ffd603] text-2xl'> $45,000 </span>MXN/Familia</p>
                 </div>
             </div>
-           </div>
+           </div> : <p className=' text-white p-10'>¡Explora nuestros increíbles viajes, diseñados especialmente para ti! En nuestro mundo de destinos fascinantes y experiencias únicas, te invitamos a descubrir la aventura en cada rincón del planeta <a href='/' className='text-[#ffd603]'>Aquí</a></p>}
           </div>
 
         </div>

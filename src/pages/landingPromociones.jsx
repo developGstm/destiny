@@ -38,7 +38,6 @@ const LandingPromociones = () => {
         if (data_codigo) {
             const datosFiltrados = data_codigo.filter(data => data.attributes.codigo === slug);
             setInfluencer(datosFiltrados);
-            console.log(influencer)
             setLoading(false);
         }else {
             setLoading(true);
@@ -67,8 +66,8 @@ const LandingPromociones = () => {
                 background='https://elviajerofeliz.com/wp-content/uploads/2018/06/Motivos-para-viajar.jpg'
                 eventos={false}
                 />
-                <section className='w-100 flex flex-col justify-center items-center text-white -mt-40 relative'>
-                <FormRegister codigo={slug ? influencer[0].attributes.codigo : '' } imgPerfil={ slug ? influencer[0].attributes.img.data.attributes.formats.small.url : '' }/>
+                <section className='w-100 flex flex-col justify-center items-center text-white -mt-40 relative z-40'>
+                <FormRegister codigo={slug ? influencer[0].attributes.codigo : 'promo15' } imgPerfil={ slug ? influencer[0].attributes.img.data.attributes.formats.small.url : '' }/>
                 </section> 
                 <Footer/>
             </div>
