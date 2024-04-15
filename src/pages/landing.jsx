@@ -22,7 +22,7 @@ const Landing = () => {
     weekdaysMin: 'Do_Lu_Ma_Mi_Ju_Vi_Sa'.split('_')
   })
   useEffect(() => {
-    Axios.get(`https://cms.gstmtravel.com/api/filterServiceSearch/${url}`)
+    Axios.get(`http://localhost:1337/api/filterServiceSearch/${url}`)
     .then(response => {
       const data = new modelService(response?.data?.data[0])
       setdata(data)
@@ -45,8 +45,9 @@ const Landing = () => {
 
   const handleOptionSelectDate = (index, option) => {
     let newArray = data?.tarifas;
-    newArray[index].optionSelect = data?.tarifas[index]?.fechas ? data?.tarifas[index]?.fechas?.find(item => item.fecha_evento === option) : {fecha_inicio: option, fecha_fin:moment(option).add(data?.duracion?.cantidad,validationUnidad(data?.duracion?.unidad)).format('YYYY-MM-DD')}
-    console.log(newArray[index].optionSelect)
+    console.log(option)
+    newArray[index].optionSelect = (data?.tarifas[index]?.fechas || data?.tarifas[index]?.Fechas) ? data?.tarifas[index]?.fechas?.find(item => item.fecha_evento === option) : {fecha_inicio: option, fecha_fin:moment(option).add(data?.duracion?.cantidad - 1,validationUnidad(data?.duracion?.unidad)).format('YYYY-MM-DD')}
+    console.log(newArray[index].optionSelect, 'find')
     setdata({...data, tarifas: newArray})
   }
 
@@ -146,7 +147,7 @@ const Landing = () => {
                             </select>
                           </div>
                           { tarifa?.optionSelect && <div className='w-full flex'>
-                            <Link to={`/checkout/${url}/${tarifa.id}/${tarifa?.optionSelect?.fecha_evento}`} className='bg-[#2d8ae8]  rounded p-3 w-full text-white flex justify-center font-bold'>
+                            <Link to={`/checkout?url=${url}&fecha_salida=${tarifa?.optionSelect?.fecha_inicio}&fecha_llegada=${tarifa?.optionSelect?.fecha_fin}&fecha_evento=${tarifa?.optionSelect?.fecha_evento}&tarifa=${tarifa.id}`} className='bg-[#2d8ae8]  rounded p-3 w-full text-white flex justify-center font-bold'>
                               Reservá ahora
                             </Link> 
                           </div>
@@ -157,14 +158,15 @@ const Landing = () => {
                             <input type="date" className='rounded-lg bg-transparent relative' onChange={(e) => handleOptionSelectDate(index,e.target.value)} />
                           </div>
                           { tarifa?.optionSelect && <div className='md:w-1/2 flex items-end justify-end'>
-                            <Link to={`/checkout/${url}/${tarifa.id}/${tarifa?.optionSelect?.fecha_evento}`} className='bg-[#2d8ae8]  rounded p-3 w-full text-white font-bold text-center'>
+                            <Link to={`/checkout?url=${url}&fecha_salida=${tarifa?.optionSelect?.fecha_inicio}&fecha_llegada=${tarifa?.optionSelect?.fecha_fin}&fecha_evento=${tarifa?.optionSelect?.fecha_evento}&tarifa=${tarifa.id}`} 
+                            className='bg-[#2d8ae8]  rounded p-3 w-full text-white font-bold text-center'>
                               Reservá ahora
                             </Link> 
                           </div>
                           }
                         </div>
                         }
-                        { tarifa?.optionSelect && <div className='w-full flex gap-3 pb-3 flex-col md:flex-row'>
+                        { (tarifa?.optionSelect && !tarifa.fechas) && <div className='w-full flex gap-3 pb-3 flex-col md:flex-row'>
                           <div className='md:w-1/3 flex gap-3 items-center text-center border rounded-lg p-3'>
                             <i className="fa-sharp fa-light fa-plane-departure text-2xl text-[#ffd603]"></i>
                             <span className='text-xl font-bold'>{moment(tarifa?.optionSelect.fecha_inicio).format('dddd DD MMMM YYYY')}</span>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Navigate , useParams  } from "react-router-dom";
+import { Navigate , useLocation, useParams  } from "react-router-dom";
 import Menu from '../components/menu'
 import Input from '../components/input'
 import { loadStripe } from "@stripe/stripe-js";
@@ -18,7 +18,7 @@ const Checkout = (props) => {
   const [FormasPago, setFormasPago] = useState(false)
   const [typePayment, settypePayment] = useState(1)
   const [dataUser, setdataUser] = useState({})
-  const { url, tarifa, fecha } = useParams();
+  const [params, setparams] = useState({})
   const [clientSecret, setClientSecret] = useState(undefined);
   const [data, setdata] = useState({})
   const [tarifaSelect, setTarifaSelect] = useState(undefined)
@@ -27,12 +27,21 @@ const Checkout = (props) => {
   const [financiamiento, setfinanciamiento] = useState(undefined)
   const [selectFinaciamiento, setselectFinaciamiento] = useState(undefined)
   const [desplieguePagos, setdesplieguePagos] = useState(undefined)
+  let {search} = useLocation()
+  let query = new URLSearchParams(search)
 
   useEffect(() => {
-    Axios.get(`https://cms.gstmtravel.com/api/filterServiceSearch/${url}`)
+    setparams({
+      url: query.get('url'),
+      fecha_salida: query.get('fecha_salida'),
+      fecha_llegada: query.get('fecha_llegada'),
+      fecha_evento: query.get('fecha_evento'),
+      tarifa: query.get('tarifa'),
+    })
+    Axios.get(`http://localhost:1337/api/filterServiceSearch/${query.get('url')}`)
     .then(response => {
       const dataModel = new modelService(response?.data?.data[0])
-      setTarifaSelect(dataModel?.tarifas?.find(tarifaItem => tarifaItem.id === parseInt(tarifa)))
+      setTarifaSelect(dataModel?.tarifas?.find(tarifaItem => tarifaItem.id === parseInt(query.get('tarifa'))))
       setdata(dataModel)
     })
     .catch(err => {
@@ -40,14 +49,31 @@ const Checkout = (props) => {
     })
   }, [])
 
+
   const handleSave = (e) => { 
     e.preventDefault()
-    let tarifaSend = tarifaSelect.titulo
+    let tarifaSend = tarifaSelect?.titulo
     if (clientSecret === undefined) {
-      fetch("https://cms.gstmtravel.com/api/paymentIntent", {
+      fetch("http://localhost:1337/api/paymentIntent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({...dataUser, fecha: fecha ,paquete: {...data, total: tarifaSelect.precio,tarifaId: tarifaSelect.id ,tarifa: tarifaSend.concat(' $', tarifaSelect.precio, data?.moneda), estatus_pago: 'completo', plataforma_pago: 'strapi'}}),
+        body: JSON.stringify({
+          ...dataUser, 
+          paquete: {
+            ...data, 
+            total: tarifaSelect.precio,
+            tarifaId: tarifaSelect.id,
+            tarifa: tarifaSend.concat(' $', tarifaSelect.precio, data?.moneda), 
+            estatus_pago: 'completo', 
+            plataforma_pago: 'strapi',
+            concepto: 'pago total',
+            usuario:null,
+            descuento: null,
+            fecha_salida:params?.fecha_salida,
+            fecha_llegada:params?.fecha_llegada,
+            fecha_evento:params.fecha_evento,
+            concepto_pago: 'pago total',
+          }}),
       })
       .then((res) => res.json())
       .then((data) => {
@@ -90,29 +116,62 @@ const Checkout = (props) => {
     settypePayment(type)
     if (type === 1) {
       setselectFinaciamiento(undefined)
-    }
-
-    fetch("https://cms.gstmtravel.com/api/paymentIntentUpdate", {
+      fetch("http://localhost:1337/api/paymentIntentUpdate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({idPaymentIntent: idPaymentIntent, paquete: {...data, estatus_pago: type!==2 ? 'completo' : 'financiamiento', plataforma_pago: 'strapi',total: tarifaSelect.precio, tarifaId: tarifaSelect.id }}),
+        body: JSON.stringify(
+          {
+            idPaymentIntent: idPaymentIntent, 
+            paquete: {
+              ...data, 
+              estatus_pago: type!==2 ? 'completo' : 'financiamiento', 
+              total: tarifaSelect.precio, 
+              tarifaId: tarifaSelect.id,
+              concepto_pago: type!==2 ? 'pago total' : 'apartado',
+
+            }
+          }),
       })
       .then((res) => res.json())
       .then((data) => {
         setcurrencyTotal(data.tarifa)
       });
+    }
   }
 
   const handleSelectFinanciamiento = (value) => {
-    setselectFinaciamiento(value)
+    fetch("http://localhost:1337/api/paymentIntentUpdate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(
+          {
+            idPaymentIntent: idPaymentIntent, 
+            paquete: {
+              ...data, 
+              estatus_pago: 'financiamiento', 
+              total: tarifaSelect.precio, 
+              tarifaId: tarifaSelect.id,
+              concepto_pago: 'apartado',
+              cantidadPagos:value?.npagos,
+              pagosRestantes: value?.npagos,
+              valorDePago: value?.cantidadPago,
+              restanteTotal: desplieguePagos?.restantePaqueteFinanciado,
+            }
+          }),
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        setcurrencyTotal(data.tarifa)
+        setselectFinaciamiento(value)
+      });
   }
   
   const handleWhatsApp = () => {
-    const text = `Hola quiero reservar mi paquete ${data.titulo} para el ${fecha} pero tengo algunas dudas, ¿Me podrían ayudar?`
+    const text = `Hola quiero reservar mi paquete ${data.titulo} para el ${params?.fecha_salida} pero tengo algunas dudas, ¿Me podrían ayudar?`
     window.open(`https://wa.me/17022852381?text=${text.replace(/ /g, "%20")}`)
   }
-
-  if (url) {
+  
+  if (query.get('url') && query.get('tarifa') && query.get('fecha_salida') && query.get('fecha_llegada')) {
     return (
       <div>
         <Menu/>
@@ -131,19 +190,24 @@ const Checkout = (props) => {
                     <div className='md:w-1/2'>
                       <span className='font-bold text-[#ffd603]'>Tu proximo viaje:</span>
                       <h1 className='text-lg font-semibold'>{data?.titulo}</h1>
-                      <span>{tarifaSelect && tarifaSelect.titulo} | {fecha && fecha}</span>
+                      <span>{tarifaSelect && tarifaSelect.titulo} | {params?.fecha_salida | params?.fecha_llegada | params?.fecha_evento}</span>
                     </div>
                     <div className="md:w-1/2 flex md:justify-end text-sm font-bold flex-col gap-3">
                       {
                         (typePayment !== 1 && desplieguePagos) && <div className='flex flex-col gap-2'>
                           <div>Valor total del paquete: ${new Intl.NumberFormat('en-IN').format(tarifaSelect?.precio)}</div>
                           <div>+ Comision de financiamiento: ${new Intl.NumberFormat('en-IN').format(desplieguePagos?.porcentajeFinanciamiento)}</div>
+                          <div>+ Comision de pago plataforma: ${new Intl.NumberFormat('en-IN').format(desplieguePagos?.comicionTarjeta)}</div>
                           <div>- Pago inicial: ${new Intl.NumberFormat('en-IN').format(currencyTotal?.total)}</div>
-                          <div className='border-t'>Valor a financiar:  ${new Intl.NumberFormat('en-IN').format(desplieguePagos?.totalPaquete)}</div>
+                          <div className='border-t'>Valor a financiar:  ${new Intl.NumberFormat('en-IN').format(desplieguePagos?.restantePaqueteFinanciado)}</div>
                         </div>
                       }
                       {
-                        typePayment === 1 ?<span className='flex justify-end'>Total a pagar: ${currencyTotal ? currencyTotal && `${new Intl.NumberFormat('en-IN').format(currencyTotal.total)} ${currencyTotal?.moneda}` : tarifaSelect &&`${new Intl.NumberFormat('en-IN').format(tarifaSelect.precio)} ${data?.moneda}`}</span>
+                        typePayment === 1 ? <div className='flex justify-end flex-col '>
+                            <span>Subtotal: ${currencyTotal ? currencyTotal && `${new Intl.NumberFormat('en-IN').format(currencyTotal.total)} ${currencyTotal?.moneda}` : tarifaSelect &&`${new Intl.NumberFormat('en-IN').format(tarifaSelect.precio)} ${data?.moneda}`}</span>
+                            <span>+ Comision de pago plataforma  ${ desplieguePagos?.comicionTarjeta ? new Intl.NumberFormat('en-IN').format(desplieguePagos?.comicionTarjeta) : new Intl.NumberFormat('en-IN').format((tarifaSelect?.precio*(3.6/100)))} {data?.moneda} </span>
+                            <span className='pt-2 border-t-2'>Total a pagar:  ${ desplieguePagos?.total ? new Intl.NumberFormat('en-IN').format(desplieguePagos?.total) : new Intl.NumberFormat('en-IN').format((tarifaSelect?.precio*(3.6/100))+ tarifaSelect?.precio)} {data?.moneda} </span>
+                          </div>
                         : <div className='border rounded-lg p-2'>
                             <span>Aparta con tan solo: ${new Intl.NumberFormat('en-IN').format(currencyTotal.total)} {currencyTotal?.moneda}</span>
                           </div>
@@ -157,7 +221,7 @@ const Checkout = (props) => {
               <div className="md:w-1/3 flex flex-col">
                 <div className="flex flex-col border-b py-4">
                   <div className='flex justify-between'><h1 className='text-white text-xl'>Información del viajero</h1> {!showInfoUser && <button className='rounded-lg border p-2 text-white' onClick={() => handleInfo(true)}>Editar</button>}</div>
-                  {showInfoUser &&<form onSubmit={(e)=>handleWhatsApp(e)}>
+                  {showInfoUser &&<form onSubmit={(e)=>handleSave(e)}>
                     <div className='grid grid-cols-1 mt-5 gap-5'>
                       <Input 
                         nombre='nombre' 
@@ -193,7 +257,7 @@ const Checkout = (props) => {
                       />
                     </div>
                     <div className="w-full flex justify-end mt-5 text-white">
-                      <button type='submit' className='rounded-lg border p-2 w-full lg:w-2/3'>Guardar y Reservar</button>
+                      <button type='submit' className='rounded-lg border p-2 w-full lg:w-2/3'>Guardar y Continuar</button>
                     </div>
                   </form>}
                   {!showInfoUser && <div className='flex flex-col gap-1 text-white'>
@@ -202,7 +266,7 @@ const Checkout = (props) => {
                     <span><strong>Telefono:</strong> {dataUser?.telefono}</span>
                   </div>}
                 </div>
-                {/*<div className="flex flex-col border-b py-4">
+                {<div className="flex flex-col border-b py-4">
                   <h1 className='text-white text-xl'>Formas de pago</h1>
                   {FormasPago && <div>
                     <div className='grid grid-cols-1 mt-5 gap-5'>
@@ -241,7 +305,7 @@ const Checkout = (props) => {
                       </div>}
                     </div>
                   </div>}
-                </div>*/}
+                </div>}
               </div>
             </div>
           </div>

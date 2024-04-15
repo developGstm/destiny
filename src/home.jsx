@@ -300,42 +300,9 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <section className='relative'>
-        <div className="mx-auto max-w-7xl p-6 lg:px-8">
-          <h1 className="font-extrabold text-5xl mb-5 text-white lg:text-6xl">
-            Tu Próximo<span className='block'><span className='text-[#ffd603]'>Viaje</span> Inicia Aquí</span> 
-          </h1>
-          <div className="gallery-destinations">
-            <div className="mt-8 grid grid-cols-1 gap-2 w-full h-full md:grid-cols-2 lg:grid-cols-4">
-              {destinos.map(item => <div className="group relative overflow-hidden rounded-xl h-80 bg-red-50">
-                <img 
-                  src={ item.imagen }
-                  alt="" 
-                  className='object-cover h-full w-full'
-                />
-                <div className="bottom-0 left-0 absolute w-full h-2/3 bg-gradient-to-t from-[#010417] from-0%"></div>
-                <div className='p-2 text-white flex flex-col justify-end bottom-0 left-0 absolute h-full w-full'>
-                  <h1 className='text-2xl font-bold'>{ item.title }</h1>
-                  <div className='w-full flex justify-between text-sm'>
-                    <span className='flex gap-1 items-center'>
-                      <i className="fa-sharp fa-light fa-location-dot text-[#ffd603]"></i>
-                      {item.ubicacion}
-                    </span>
-                    <span className='flex gap-1'>
-                      from<p className='font-bold'>{item.precio}</p>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              )}
-            </div>
-          </div>
-          <div className='flex items-end justify-end text-[#ffd603] mt-5'>
-              <button>Ver mas</button>
-            </div>
-        </div>
-      </section>
+      <SectionType type='tour' title={'Tu Próximo<span class="block"><span class="text-[#ffd603]">Viaje</span> Inicia Aquí</span> '}/>
       <SectionType type='concierto' title={'Tus artistas <span class="block text-[#ffd603]">Favoritos</span>'}/>
+      <SectionType type='hotel' title={'Los lugares <span class="block text-[#ffd603]">Mas maravillosos</span>'}/>
       <section className='mb-10'>
         <div className="mx-auto max-w-7xl p-6 lg:px-8 flex flex-col relative">
           <div className='relative flex items-center justify-center'>

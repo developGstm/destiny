@@ -14,11 +14,10 @@ import Login from './pages/login'
 import Register from './pages/register'
 import LandingProximamente from './pages/landingProximamente'
 import { HelmetProvider } from 'react-helmet-async';
-
 const router = createBrowserRouter([
   {
     path:'/',
-    element:<LandingProximamente/>
+    element:<Home/>
   },
   {
     path:'/checkout/sucess',
@@ -32,10 +31,6 @@ const router = createBrowserRouter([
         path: 'sucess',
         element: <CheckoutSucess />
       },
-      {
-        path: ':url/:tarifa/:fecha',
-        element: <Checkout/>
-      }
     ]
   },
   {
@@ -50,6 +45,16 @@ const router = createBrowserRouter([
   },
   {
     path: "/hoteles",
+    element:<Landing/>,
+    children: [
+      {
+        path: ':url',
+        element:<Landing/>,
+      }
+    ]
+  },
+  {
+    path: "/tours",
     element:<Landing/>,
     children: [
       {
