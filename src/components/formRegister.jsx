@@ -3,9 +3,11 @@ import Input from './input'
 import moment from 'moment';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { loginSuccess } from '../redux/authSlice';
 
 const FormRegister = ({ img,imgPerfil,codigo }) => {
+    const dispatch = useDispatch();
     const [isChecked, setIsChecked] = useState(true);
     const navigate = useNavigate();
     const [dataUser, setdataUser] = useState({
@@ -43,13 +45,13 @@ const FormRegister = ({ img,imgPerfil,codigo }) => {
         try {
           const respuesta = await axios.post('https://cms.gstmtravel.com/api/auth/local/register', dataUser);
           if (respuesta.data.jwt) {
+          dispatch(loginSuccess({isLoading:false,usuario:respuesta.data,activeLogin:true}));  
             navigate('/');
           }       
           // Manejar la respuesta del servidor, redirigir, etc.
         } catch (error) {
-          console.error('Error al registrar usuario:', error);
           // Manejar el error, mostrar un mensaje al usuario, etc.
-          console.log(error.response.data.error.message);
+
         }
       };
 
