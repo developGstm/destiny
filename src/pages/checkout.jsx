@@ -54,7 +54,7 @@ const Checkout = (props) => {
     e.preventDefault()
     let tarifaSend = tarifaSelect?.titulo
     if (clientSecret === undefined) {
-      fetch("https://cms.gstmtravel.com/api/paymentIntent", {
+      fetch("http://localhost:3000/api/paymentIntent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -116,7 +116,7 @@ const Checkout = (props) => {
     settypePayment(type)
     if (type === 1) {
       setselectFinaciamiento(undefined)
-      fetch("https://cms.gstmtravel.com/api/paymentIntentUpdate", {
+      fetch("http://localhost:3000/api/paymentIntentUpdate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
@@ -210,8 +210,7 @@ const Checkout = (props) => {
                       {
                         typePayment === 1 ? <div className='flex justify-end flex-col '>
                             <span>Subtotal: ${currencyTotal ? currencyTotal && `${new Intl.NumberFormat('en-IN').format(currencyTotal.total)} ${currencyTotal?.moneda}` : tarifaSelect &&`${new Intl.NumberFormat('en-IN').format(tarifaSelect.precio)} ${data?.moneda}`}</span>
-                            <span>+ Comision de pago plataforma  ${ desplieguePagos?.comicionTarjeta ? new Intl.NumberFormat('en-IN').format(desplieguePagos?.comicionTarjeta) : new Intl.NumberFormat('en-IN').format((tarifaSelect?.precio*(3.6/100)))} {data?.moneda} </span>
-                            <span className='pt-2 border-t-2'>Total a pagar:  ${ desplieguePagos?.total ? new Intl.NumberFormat('en-IN').format(desplieguePagos?.total) : new Intl.NumberFormat('en-IN').format((tarifaSelect?.precio*(3.6/100))+ tarifaSelect?.precio)} {data?.moneda} </span>
+                            <span className='pt-2 border-t-2'>Total a pagar:  ${ desplieguePagos?.total ? new Intl.NumberFormat('en-IN').format(desplieguePagos?.total) : new Intl.NumberFormat('en-IN').format(tarifaSelect?.precio)} {data?.moneda} </span>
                           </div>
                         : <div className='border rounded-lg p-2'>
                             <span>Aparta con tan solo: ${new Intl.NumberFormat('en-IN').format(currencyTotal.total)} {currencyTotal?.moneda}</span>
