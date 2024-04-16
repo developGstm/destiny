@@ -3,9 +3,8 @@ import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router';
 
 const Auth = ( { children } ) => {
-    const user = useSelector((state) => state.user);
-
-    if(user?.activeLogin) {
+    const isUserActive = useSelector(state => state.auth.activeLogin);
+    if(isUserActive) {
         return (
             <>{ children }</> 
             )
