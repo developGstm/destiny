@@ -89,8 +89,8 @@ const Landing = () => {
               <div className="mx-auto max-w-7xl p-6 lg:px-8 h-full">
                 <div className="w-full h-full text-white flex items-center justify-center">
                   <h1 className="font-extrabold text-5xl flex gap-2 text-center">
-                    <span>Todos Nuestros</span>
-                    <span className='text-[#ffd603]'>{handleTypePlural(location.pathname)}</span>
+                    <span>Todos Nuestros <span className='text-[#ffd603]'>{handleTypePlural(location.pathname)}</span></span>
+                    
                   </h1>
                 </div>
               </div>

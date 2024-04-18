@@ -183,13 +183,13 @@ const Checkout = (props) => {
             <div className="header flex w-full justify-center">
               <h1 className='text-white text-center text-2xl'>Reserva</h1>
             </div>
-            <button onClick={() => handleWhatsApp()} className="w-[90%] md:w-[15%] bg-[#ffd603] text-[#010417] fixed z-30 p-2 rounded-lg font-bold flex gap-2 items-center justify-center left-0 bottom-0 right-0 m-auto md:ml-16 mb-2">
+            <button onClick={() => handleWhatsApp()} className="w-[90%] md:w-[15%] bg-[#ffd603] text-[#010417] fixed z-10 p-2 rounded-lg font-bold flex gap-2 items-center justify-center left-0 bottom-0 right-0 m-auto md:ml-16 mb-2">
               <i className="fa-brands fa-whatsapp text-xl"></i><span>¿Quiero reservar?</span>
             </button>
             <div className="flex flex-col md:flex-row-reverse gap-5 mt-10">
               <div className="md:w-2/3">
                 <div className='w-full h-full relative md:min-h-screen'>
-                  <div className="w-full absolute bottom-0 left-0 z-20 flex flex-col md:flex-row gap-1 text-white p-2">
+                  <div className="w-full absolute bottom-0 left-0 z-10 flex flex-col md:flex-row gap-1 text-white p-2">
                     <div className='md:w-1/2'>
                       <span className='font-bold text-[#ffd603]'>Tu proximo viaje:</span>
                       <h1 className='text-lg font-semibold'>{data?.titulo}</h1>

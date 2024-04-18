@@ -15,11 +15,9 @@ function footer(props) {
           <div className='flex flex-col gap-4'>
             <span className='text-xl font-bold'>Reserva</span>
             <div className='flex flex-col gap-1'>
-              <span>Viajes</span>
-              <span>Concierto</span>
-              <span>Deportes</span>
-              <span>Comedia</span>
-              <span>Magia</span>
+              <a href="/tours">Viajes</a>
+              <a href="/conciertos">Concierto</a>
+              <a href="/hoteles">Hoteles</a>
             </div>
           </div>
           <div className='flex flex-col gap-4 text-sm'>
@@ -41,8 +39,8 @@ function footer(props) {
             <span className='flex items-center gap-2'>
               <a href="mailto:hola@destinytravel.ai"><i className="fa-light fa-envelope"></i> hola@destinytravel.ai</a>
             </span>
-            <a href="tel:+17256662418" className='flex items-center gap-2'>
-              <i className="fa-light fa-phone"></i><p>+1 725 666 2418</p>
+            <a href="tel:+17755402646" className='flex items-center gap-2'>
+              <i className="fa-light fa-phone"></i><p>+1 775 540 2646</p>
             </a>
             <a href="tel:+524423885119" className='flex items-center gap-2'>
               <i className="fa-light fa-phone"></i><p>+52 442 38 85 119</p>
