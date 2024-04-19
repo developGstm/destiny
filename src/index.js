@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import {
-  createBrowserRouter,
-  RouterProvider,
+  BrowserRouter,
+  Routes,
+  Route
 } from "react-router-dom";
 import Home from './home';
 import Landing from './pages/landing';
@@ -19,87 +20,32 @@ import Profile from './pages/profile';
 import { Provider } from 'react-redux';
 import { store, persistore } from './redux/store'; // Importa el store y el persistor de Redux Persist
 import { PersistGate } from 'redux-persist/integration/react';
-
-const router = createBrowserRouter([
-  {
-    path:'/',
-    element:<Home/>
-  },
-  {
-    path:'/checkout/sucess',
-    element: <CheckoutSucess />
-  },
-  {
-    path:"/checkout",
-    element: <Checkout/>,
-    children: [
-      {
-        path: 'sucess',
-        element: <CheckoutSucess />
-      },
-    ]
-  },
-  {
-    path: "/promocion-de-descuento-2024",
-    element:<LandingPromociones/>,
-    children: [
-      {
-        path: ':slug',
-        element:<LandingPromociones/>,
-      }
-    ]
-  },
-  {
-    path: "/conciertos",
-    element:<Landing/>,
-    children: [
-      {
-        path: ':url',
-        element:<Landing/>,
-      }
-    ]
-  },
-  {
-    path: "/hoteles",
-    element:<Landing/>,
-    children: [
-      {
-        path: ':url',
-        element:<Landing/>,
-      }
-    ]
-  },
-  {
-    path: "/tours",
-    element:<Landing/>,
-    children: [
-      {
-        path: ':url',
-        element:<Landing/>,
-      }
-    ]
-  },
-  {
-    path: "/login",
-    element:<Login/>,
-  },
-  {
-    path: '/register',
-    element:<Register/>,
-  },
-  {
-    path: "/mi-perfil",
-    element:<Profile/>,
-  }
-]);
+import Auth from './components/auth';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <HelmetProvider>
-           <Provider store={store}>
+        <Provider store={store}>
         <PersistGate persistor={persistore}> 
-        <RouterProvider router={router} />
+          <BrowserRouter>
+            <Routes>
+              <Route path={ "/" }  element={ <Home/> }/>
+              <Route path={ "/checkout" }  element={ <Checkout/> }/>
+              <Route path={ "/checkout/sucess" }  element={ <CheckoutSucess /> }/> 
+              <Route path={ "/promocion-de-descuento-2024" }  element={ <LandingPromociones/> }/>
+              <Route path={ "/promocion-de-descuento-2024/:slug" }  element={ <LandingPromociones/>}/>
+              <Route path={ "/conciertos" }  element={ <Landing/>}/>
+              <Route path={ "/conciertos/:url" }  element={ <Landing/>}/>
+              <Route path={ "/hoteles" }  element={ <Landing/>}/>
+              <Route path={ "/hoteles/:url" }  element={ <Landing/>}/>
+              <Route path={ "/tours" }  element={ <Landing/>}/>
+              <Route path={ "/tours/:url" }  element={ <Landing/>}/>
+              <Route path={ "/login" }  element={ <Login/>}/>
+              <Route path={ "/register" }  element={ <Register/>}/>
+              <Route path={ "/mi-perfil" }  element={<Auth> <Profile/> </Auth>}/>
+            </Routes>
+          </BrowserRouter>
         </PersistGate>
       </Provider>
     </HelmetProvider>
