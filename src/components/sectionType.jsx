@@ -54,7 +54,7 @@ function SectionType({type, title, clase}) {
                             { item?.ubicacion?.locality }
                           </span>
                           <span className='flex gap-1 text-sm'>
-                            desde<p className='font-bold'>${new Intl.NumberFormat('en-IN').format(item?.tarifaBaja?.precio)}<span className='text-xs'>{item?.moneda}</span></p>
+                            desde<p className='font-bold'>${new Intl.NumberFormat('es-MX').format(item?.tarifaBaja?.precio)}<span className='text-xs'>{item?.moneda}</span></p>
                           </span>
                         </div>
                       </div>

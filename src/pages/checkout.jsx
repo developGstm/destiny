@@ -200,20 +200,20 @@ const Checkout = (props) => {
                     <div className="md:w-1/2 flex md:justify-end text-sm font-bold flex-col gap-3">
                       {
                         (typePayment !== 1 && desplieguePagos) && <div className='flex flex-col gap-2'>
-                          <div>Valor total del paquete: ${new Intl.NumberFormat('en-IN').format(tarifaSelect?.precio)}</div>
-                          <div>+ Comision de financiamiento: ${new Intl.NumberFormat('en-IN').format(desplieguePagos?.porcentajeFinanciamiento)}</div>
-                          <div>+ Comision de pago plataforma: ${new Intl.NumberFormat('en-IN').format(desplieguePagos?.comicionTarjeta)}</div>
-                          <div>- Pago inicial: ${new Intl.NumberFormat('en-IN').format(currencyTotal?.total)}</div>
-                          <div className='border-t'>Valor a financiar:  ${new Intl.NumberFormat('en-IN').format(desplieguePagos?.restantePaqueteFinanciado)}</div>
+                          <div>Valor total del paquete: ${new Intl.NumberFormat('es-MX').format(tarifaSelect?.precio)}</div>
+                          <div>+ Comision de financiamiento: ${new Intl.NumberFormat('es-MX').format(desplieguePagos?.porcentajeFinanciamiento)}</div>
+                          <div>+ Comision de pago plataforma: ${new Intl.NumberFormat('es-MX').format(desplieguePagos?.comicionTarjeta)}</div>
+                          <div>- Pago inicial: ${new Intl.NumberFormat('es-MX').format(currencyTotal?.total)}</div>
+                          <div className='border-t'>Valor a financiar:  ${new Intl.NumberFormat('es-MX').format(desplieguePagos?.restantePaqueteFinanciado)}</div>
                         </div>
                       }
                       {
                         typePayment === 1 ? <div className='flex justify-end flex-col '>
-                            <span>Subtotal: ${currencyTotal ? currencyTotal && `${new Intl.NumberFormat('en-IN').format(currencyTotal.total)} ${currencyTotal?.moneda}` : tarifaSelect &&`${new Intl.NumberFormat('en-IN').format(tarifaSelect.precio)} ${data?.moneda}`}</span>
-                            <span className='pt-2 border-t-2'>Total a pagar:  ${ desplieguePagos?.total ? new Intl.NumberFormat('en-IN').format(desplieguePagos?.total) : new Intl.NumberFormat('en-IN').format(tarifaSelect?.precio)} {data?.moneda} </span>
+                            <span>Subtotal: ${currencyTotal ? currencyTotal && `${new Intl.NumberFormat('es-MX').format(currencyTotal.total)} ${currencyTotal?.moneda}` : tarifaSelect &&`${new Intl.NumberFormat('es-MX').format(tarifaSelect.precio)} ${data?.moneda}`}</span>
+                            <span className='pt-2 border-t-2'>Total a pagar:  ${ desplieguePagos?.total ? new Intl.NumberFormat('es-MX').format(desplieguePagos?.total) : new Intl.NumberFormat('es-MX').format(tarifaSelect?.precio)} {data?.moneda} </span>
                           </div>
                         : <div className='border rounded-lg p-2'>
-                            <span>Aparta con tan solo: ${new Intl.NumberFormat('en-IN').format(currencyTotal.total)} {currencyTotal?.moneda}</span>
+                            <span>Aparta con tan solo: ${new Intl.NumberFormat('es-MX').format(currencyTotal.total)} {currencyTotal?.moneda}</span>
                           </div>
                       }
                     </div>
@@ -293,7 +293,7 @@ const Checkout = (props) => {
                         { (selectFinaciamiento && typePayment === 2) && 
                           <div className='flex flex-col gap-2 w-full px-4 pb-2'>
                             <span className='rounded-lg p-2 bg-[#2d8ae8] font-semibold text-center'>
-                              {selectFinaciamiento?.npagos} de pagos mensuales de ${new Intl.NumberFormat('en-IN').format(selectFinaciamiento?.cantidadPago)} {currencyTotal?.moneda}
+                              {selectFinaciamiento?.npagos} de pagos mensuales de ${new Intl.NumberFormat('es-MX').format(selectFinaciamiento?.cantidadPago)} {currencyTotal?.moneda}
                             </span>
                             <span className='text-sm text-center text-[#5f91c4] font-semibold'>*Los pagos se realizan cada primero de mes*</span>
                           </div>

@@ -27,37 +27,6 @@ const Home = () => {
     slidesToShow: 4,
     slidesToScroll: 4
   };
-  
-  const destinos = [
-    {
-      imagen:'https://viajeronomada.com/wp-content/uploads/2022/06/dondealojarseenbali.jpg',
-      title:'Verano en Bali',
-      descripcion:'Exprimenta la magia de Bali con nuestro exclusivo itinerario de 10 dias desde templos ancestrales, playas de ensueño',
-      precio:'$750',
-      ubicacion: 'Indonesia'
-    },
-    {
-      imagen:'https://cdn.aarp.net/content/dam/aarp/travel/Domestic/2021/12/1140-oahu-hero.jpg',
-      title:'Conociendo Hawaii',
-      descripcion:'Exprimenta la magia de Bali con nuestro exclusivo itinerario de 10 dias desde templos ancestrales, playas de ensueño',
-      precio:'$750',
-      ubicacion: 'USA'
-    },
-    {
-      imagen:'https://www.omintassistance.com.ar/blog/wp-content/uploads/2018/01/Grecia.jpg',
-      title:'Grecia en 10 dias',
-      descripcion:'Exprimenta la magia de Bali con nuestro exclusivo itinerario de 10 dias desde templos ancestrales, playas de ensueño',
-      precio:'$2,066',
-      ubicacion: 'Grecia'
-    },
-    {
-      imagen:'https://assets.dm.rccl.com/is/image/RoyalCaribbeanCruises/royal/ships/oasis/oasis-of-the-seas-labadee-haiti-aft.jpg?$1440x600$',
-      title:'Crucero CocoCay',
-      descripcion:'Exprimenta la magia de Bali con nuestro exclusivo itinerario de 10 dias desde templos ancestrales, playas de ensueño',
-      precio:'$2,066',
-      ubicacion: 'Las Bahamas'
-    }
-  ]
 
   const cordenadas = [
     { lon:-88.35041848015022, lat: 20.019650322154078 },

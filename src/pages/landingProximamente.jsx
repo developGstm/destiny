@@ -80,7 +80,7 @@ function LandingProximamente(props) {
                     { data?.ubicacion?.description }
                   </span>
                   <span className='flex gap-1 text-sm'>
-                    desde<p className='font-bold'>${new Intl.NumberFormat('en-IN').format(data?.tarifaBaja?.precio)}<span className='text-xs'>{data?.moneda}</span></p>
+                    desde<p className='font-bold'>${new Intl.NumberFormat('es-MX').format(data?.tarifaBaja?.precio)}<span className='text-xs'>{data?.moneda}</span></p>
                   </span>
                 </div>
                 <a href={`${window.location.href}${data?.type?.type}/${data?.url}`} className='bg-[#2d8ae8]  rounded p-3 w-full text-white flex justify-center font-bold'>
@@ -102,7 +102,7 @@ function LandingProximamente(props) {
                     { datados?.ubicacion?.description }
                   </span>
                   <span className='flex gap-1 text-sm'>
-                    desde<p className='font-bold'>${new Intl.NumberFormat('en-IN').format(datados?.tarifaBaja?.precio)}<span className='text-xs'>{datados?.moneda}</span></p>
+                    desde<p className='font-bold'>${new Intl.NumberFormat('es-MX').format(datados?.tarifaBaja?.precio)}<span className='text-xs'>{datados?.moneda}</span></p>
                   </span>
                 </div>
                 <a href={`${window.location.href}${datados?.type?.type}/${datados?.url}`} className='bg-[#2d8ae8]  rounded p-3 w-full text-white flex justify-center font-bold'>

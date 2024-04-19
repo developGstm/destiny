@@ -117,7 +117,7 @@ const Landing = () => {
                           { item?.ubicacion?.locality }
                         </span>
                         <span className='flex gap-1 text-sm'>
-                          desde<p className='font-bold'>${new Intl.NumberFormat('en-IN').format(item?.tarifaBaja?.precio)}<span className='text-xs'>{item?.moneda}</span></p>
+                          desde<p className='font-bold'>${new Intl.NumberFormat('es-MX').format(item?.tarifaBaja?.precio)}<span className='text-xs'>{item?.moneda}</span></p>
                         </span>
                       </div>
                     </div>
@@ -225,7 +225,7 @@ const Landing = () => {
                               <span className='text-sm w-full md:w-2/3'>{tarifa.descripcion}</span>
                             </div>
                             <div className='w-full md:w-1/6 flex flex-col'>
-                              <span className='font-bold text-xl'>${new Intl.NumberFormat('en-IN').format(tarifa.precio)}</span> <span className='text-sm'>{data?.moneda}/{data?.unidad}</span>
+                              <span className='font-bold text-xl'>${new Intl.NumberFormat('es-MX').format(tarifa.precio)}</span> <span className='text-sm'>{data?.moneda}/{data?.unidad}</span>
                             </div>
                           </div>
                           {
