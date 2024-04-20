@@ -56,7 +56,7 @@ const influncers = [
             <p className=' text-2xl text-center mt-4'> ¡Tu destino de ensueño te espera!</p>
           </div>
           <div className='my-20 lg:mb-5'>
-            <h2 className='text-3xl'>Acompaña a tus influencers:</h2>
+            <h2 className='text-3xl font-semibold'>Acompaña a tus influencers:</h2>
             <div className='py-5 flex flex-col items-center lg:flex-row'>
               <div className='grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-5 w-full '>
               {
@@ -78,7 +78,7 @@ const influncers = [
             </div>
           </div>
           <div className='mb-10'>
-             <p className='text-2xl text-[#ffd603]'> Sumérgete en la etapa 1 siguiendo estos simples pasos: </p> 
+             <p className='text-2xl text-[#ffd603] font-semibold'> Sumérgete en la etapa 1 siguiendo estos simples pasos: </p> 
              <ul className='px-5 mt-5'>
               <li className='mb-4'>1.Sigue a @experience.destiny en todas sus redes: <a href="https://www.facebook.com/experience.destiny" className='text-[#ffd603]'>Facebook</a>, <a className='text-[#ffd603]' href="https://www.instagram.com/experience.destiny/">Instagram</a> y <a className='text-[#ffd603]' href="https://www.tiktok.com/@experience.destiny"> TikTok</a>. </li> 
               <li className='mb-4'>2.Dale like al video destacado de la dinámica en <a href="https://www.instagram.com/p/C5y45jMxx_Q/" className='text-[#ffd603]'>Instagram</a>.</li>
@@ -87,14 +87,14 @@ const influncers = [
              </ul>
           </div>
           <div>
-             <p className='text-2xl text-[#ffd603]'> Etapa 2 sera apartir del 9 de mayo de 2024:</p> 
+             <p className='text-2xl text-[#ffd603] font-semibold'> Etapa 2 sera apartir del 9 de mayo de 2024:</p> 
              <ul className='px-5 mt-5'>
               <li className='mb-4'>1.Los finalistas grabarán un video de un minuto respondiendo a la pregunta "¿Cómo viviré mi experiencia Destiny en Bali?" y lo enviarán del 10 al 13 de mayo. </li> 
               <li className='mb-4'>2.Se enviará un itinerario a los ganadores para ayudarles a planificar su respuesta.</li>
               <li className='mb-4' class="text-[#ffd603]"></li>
              </ul>
           </div>
-          <p className='text-2xl text-[#ffd603]'>¡Anuncio de ganadores: 15 de mayo de 2024!</p> 
+          <p className='text-2xl text-[#ffd603] mt-10 text-center font-semibold'>¡Anuncio de ganadores: 15 de mayo de 2024!</p> 
         </section>
         <Footer/>
     </div>
