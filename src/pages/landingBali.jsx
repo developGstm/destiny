@@ -61,7 +61,7 @@ const influncers = [
               <div className='grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-5 w-full '>
               {
                 influncers?.map( item => (
-                 
+                  <a href={ item.instagram }>
                     <div className='group relative overflow-hidden rounded-xl h-100 my-8'>
                       <img className='object-cover h-full w-full' src={ item.img } alt={ item.nombre } />
                       <div className='bottom-0 left-0 absolute w-full h-2/3 bg-gradient-to-t from-[#010417] from-0%'></div>
@@ -72,6 +72,7 @@ const influncers = [
                         </a>
                       </div>
                     </div>
+                  </a>
                 ) )
               }
               </div>

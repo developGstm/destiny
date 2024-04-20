@@ -167,6 +167,8 @@ const Home = () => {
         fechas="14 Días de Aventura Gratuita con nosotros" 
         background={ Fondo }
         eventos={true}
+        boton="Ver Más"
+        url="/gana-un-viaje-a-bali"
         />
       {/*<section className='mt-24'>
         <div className="mx-auto max-w-7xl p-6 lg:px-8">
