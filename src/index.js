@@ -21,6 +21,7 @@ import { Provider } from 'react-redux';
 import { store, persistore } from './redux/store'; // Importa el store y el persistor de Redux Persist
 import { PersistGate } from 'redux-persist/integration/react';
 import Auth from './components/auth';
+import LandingBali from './pages/landingBali';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -35,6 +36,7 @@ root.render(
               <Route path={ "/checkout/sucess" }  element={ <CheckoutSucess /> }/> 
               <Route path={ "/promocion-de-descuento-2024" }  element={ <LandingPromociones/> }/>
               <Route path={ "/promocion-de-descuento-2024/:slug" }  element={ <LandingPromociones/>}/>
+              <Route path={ "/gana-un-viaje-a-bali" }  element={ <LandingBali/> }/>
               <Route path={ "/conciertos" }  element={ <Landing/>}/>
               <Route path={ "/conciertos/:url" }  element={ <Landing/>}/>
               <Route path={ "/hoteles" }  element={ <Landing/>}/>

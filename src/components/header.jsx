@@ -1,7 +1,7 @@
 import React from 'react'
 import ProximosEventos from './proximosEventos'
 
-const Header = ({ titulo,subtitulo,fechas,boton=false,background,eventos }) => {
+const Header = ({ titulo,subtitulo,fechas,boton=false,background,eventos,url }) => {
 
   return (
     <section className='w-full h-screen bg-no-repeat bg-cover relative'>
@@ -14,10 +14,10 @@ const Header = ({ titulo,subtitulo,fechas,boton=false,background,eventos }) => {
                     <span dangerouslySetInnerHTML={{__html:titulo}}></span> 
                   <strong className="lg:block font-extrabold text-4xl"> {subtitulo }</strong>
                 </h1>
-                { boton !== false &&               
-                    <button className='bg-[#2d8ae8] lg:w-1/2 my-3 rounded p-3'>
-                     { boton }
-                    </button> 
+                { boton !== false &&     
+                        
+                <a href={ url } className='bg-[#2d8ae8] lg:w-1/2 my-3 rounded p-3 text-center font-semibold text-xl'> { boton } </a>
+
                 }
               </div>
             </div>
