@@ -90,7 +90,6 @@ const Landing = () => {
                 <div className="w-full h-full text-white flex items-center justify-center">
                   <h1 className="font-extrabold text-5xl flex gap-2 text-center">
                     <span>Todos Nuestros <span className='text-[#ffd603]'>{handleTypePlural(location.pathname)}</span></span>
-                    
                   </h1>
                 </div>
               </div>
@@ -98,7 +97,7 @@ const Landing = () => {
             <img className='w-full h-screen object-cover' src={dataOtherLanding?.servicios[0]?.portada} alt="" />
           </div>
           <div className='w-full absolute bottom-0 left z-0 bg-gradient-to-t from-[#010417] from-10% min-h-full'></div>
-          <div className="mx-auto max-w-7xl p-6 lg:px-8 -mt-96 relative z-30">
+          <div className="mx-auto max-w-7xl p-6 lg:px-8 -mt-60 relative z-30">
             <div className="mt-8 grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4 w-full h-full">
               {dataOtherLanding?.servicios?.map((item, index) => {
                 return (
