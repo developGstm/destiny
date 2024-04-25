@@ -10,31 +10,31 @@ const influncers = [
     nombre:'Odemaris Ruiz',
     nickname:'ode_ruiz',
     instagram:'https://www.instagram.com/ode_ruiz/',
-    img:'https://scontent.cdninstagram.com/v/t39.30808-6/436142451_18404171938068725_9161691104885404748_n.jpg?stp=dst-jpg_e35&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDQweDE4MDAuc2RyLmYzMDgwOCJ9&_nc_ht=scontent.cdninstagram.com&_nc_cat=105&_nc_ohc=HtDSFvMDTwAAb6kRDwB&edm=APs17CUAAAAA&ccb=7-5&ig_cache_key=MzM0NDI3NDYyNDEzOTQ5MzMyNA%3D%3D.2-ccb7-5&oh=00_AfC8WfwwVvB-9JArOMuwHPFFEbzMvc2IE8qJ-AUJTy0sSw&oe=66279BCB&_nc_sid=10d13b',
+    img:'https://almacenamientocms.nyc3.digitaloceanspaces.com/uploads/b70d6ae18b4e12c77dd79ff24e3afd18.jpg',
   },
   {
     nombre:'Ariadna Rufrancos',
     nickname:'yosoyviajera',
     instagram:'https://www.instagram.com/yosoyviajera/',
-    img:'https://scontent.cdninstagram.com/v/t39.30808-6/432950443_18425760811010651_2114288693858053110_n.jpg?stp=dst-jpg_e35&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDQweDE3OTkuc2RyLmYzMDgwOCJ9&_nc_ht=scontent.cdninstagram.com&_nc_cat=111&_nc_ohc=dg_u1YgsTtAAb4WFSSo&edm=APs17CUAAAAA&ccb=7-5&ig_cache_key=MzMzNTk3Mjk2MDQ3MTc2OTM4Mw%3D%3D.2-ccb7-5&oh=00_AfCJoNGW9A_Eh0yKi_UXLOy9RF602quX_BF8Tm_DNk_v_Q&oe=6627B80E&_nc_sid=10d13b',
+    img:'https://almacenamientocms.nyc3.digitaloceanspaces.com/uploads/4b197ecf11f9e9f4fe6d3e143cf4086f.jpg',
   },
   {
     nombre:'Mariel de Viaje',
     nickname:'marieldeviaje',
     instagram:'https://www.instagram.com/marieldeviaje/',
-    img:'https://scontent.fpvr1-1.fna.fbcdn.net/v/t39.30808-6/295012046_607204307434014_7617254220252734331_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=mXvLKh_QtwMAb42cI7E&_nc_ht=scontent.fpvr1-1.fna&oh=00_AfD_RQzShxIETXlNDdnERI2KFgqz8zXLVgk2jRmWuVpvBg&oe=6629D2CE',
+    img:'https://almacenamientocms.nyc3.digitaloceanspaces.com/uploads/91d5a9402e4aca7e8efbde0fb8e4f2fc.jpeg',
   },
   {
     nombre:'Luz Carreiro',
     nickname:'bee.traveler',
     instagram:'https://www.instagram.com/bee.traveler/',
-    img:'https://scontent.cdninstagram.com/v/t39.30808-6/434493880_18427568998057744_6954476508262226274_n.jpg?stp=dst-jpg_e35_p720x720&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDQweDE3OTkuc2RyLmYzMDgwOCJ9&_nc_ht=scontent.cdninstagram.com&_nc_cat=104&_nc_ohc=n5E-IaXveUwAb6qWZsQ&edm=APs17CUAAAAA&ccb=7-5&ig_cache_key=MzMzNjgxMDkwNTcyOTM3OTI0OQ%3D%3D.2-ccb7-5&oh=00_AfC__sU_mhWRBwKo1QJNrs3dg2rm59ZTt5jJxMJ0ZF8ArQ&oe=6629ED79&_nc_sid=10d13b',
+    img:'https://almacenamientocms.nyc3.digitaloceanspaces.com/uploads/546330b4263b04044ed7cbdf7fcd007b.jpeg',
   },  
   {
     nombre:'Beto Pasillas',
     nickname:'betopasillas',
     instagram:'https://www.instagram.com/betopasillas/',
-    img:'https://scontent.fpvr1-1.fna.fbcdn.net/v/t1.6435-9/74624118_2492859680812937_6316662278296961024_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_ohc=2cx_1Rfp_I0Ab5Em1Ot&_nc_oc=Adi27SvluQbk_EJ6ckjZ_0eNV0o8f8jsPWGMQsv2sgfv01UBqpti2THnbosvPMmxemU&_nc_ht=scontent.fpvr1-1.fna&oh=00_AfCsIK_43PC-m6lvlDarJQY_eVeRLAEyhk4Dhfn97XAeEA&oe=664B7A87',
+    img:'https://almacenamientocms.nyc3.digitaloceanspaces.com/uploads/f3e3b377bda19d7b42c396ff306eb35d.jpg',
   }
 ]
   return (
