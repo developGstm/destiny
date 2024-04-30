@@ -73,7 +73,7 @@ const FormRegister = ({ img,imgPerfil,codigo }) => {
         requerido={true} 
         placeHolder='Nombre' 
         type='text'
-        />
+      />
         <Input 
         nombre='apellido' 
         funcion={handleInput} 

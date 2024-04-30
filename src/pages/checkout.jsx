@@ -27,6 +27,7 @@ const Checkout = (props) => {
   const [financiamiento, setfinanciamiento] = useState(undefined)
   const [selectFinaciamiento, setselectFinaciamiento] = useState(undefined)
   const [desplieguePagos, setdesplieguePagos] = useState(undefined)
+  const [avaliblePlants, setavaliblePlants] = useState([])
   let {search} = useLocation()
   let query = new URLSearchParams(search)
 
@@ -54,7 +55,7 @@ const Checkout = (props) => {
     e.preventDefault()
     let tarifaSend = tarifaSelect?.titulo
     if (clientSecret === undefined) {
-      fetch("http://localhost:3000/api/paymentIntent", {
+      fetch("https://cms.gstmtravel.com/api/paymentIntent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -78,6 +79,7 @@ const Checkout = (props) => {
       .then((res) => res.json())
       .then((data) => {
         setClientSecret(data.clientSecret)
+        setavaliblePlants(data.available_plans)
         setcurrencyTotal(data.tarifa)
         setfinanciamiento(data?.tarifa?.financiamiento)
         setidPaymentIntent(data?.idPaymentIntent)
@@ -104,6 +106,7 @@ const Checkout = (props) => {
   };
   const options = {
     clientSecret,
+    avaliblePlants,
     appearance,
   };
   
@@ -116,7 +119,7 @@ const Checkout = (props) => {
     settypePayment(type)
     if (type === 1) {
       setselectFinaciamiento(undefined)
-      fetch("http://localhost:3000/api/paymentIntentUpdate", {
+      fetch("https://cms.gstmtravel.com/api/paymentIntentUpdate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
@@ -209,8 +212,8 @@ const Checkout = (props) => {
                       }
                       {
                         typePayment === 1 ? <div className='flex justify-end flex-col '>
-                            <span>Subtotal: ${currencyTotal ? currencyTotal && `${new Intl.NumberFormat('es-MX').format(currencyTotal.total)} ${currencyTotal?.moneda}` : tarifaSelect &&`${new Intl.NumberFormat('es-MX').format(tarifaSelect.precio)} ${data?.moneda}`}</span>
-                            <span className='pt-2 border-t-2'>Total a pagar:  ${ desplieguePagos?.total ? new Intl.NumberFormat('es-MX').format(desplieguePagos?.total) : new Intl.NumberFormat('es-MX').format(tarifaSelect?.precio)} {data?.moneda} </span>
+                            <span>Subtotal: ${currencyTotal ? currencyTotal && `${new Intl.NumberFormat('es-MX').format(currencyTotal?.total)} ${currencyTotal?.moneda}` : tarifaSelect &&`${new Intl.NumberFormat('es-MX').format(tarifaSelect.precio)} ${data?.moneda}`}</span>
+                            <span className='pt-2 border-t-2'>Total a pagar:  ${ currencyTotal ? new Intl.NumberFormat('es-MX').format(currencyTotal?.total) : new Intl.NumberFormat('es-MX').format(tarifaSelect?.precio)} {data?.moneda} </span>
                           </div>
                         : <div className='border rounded-lg p-2'>
                             <span>Aparta con tan solo: ${new Intl.NumberFormat('es-MX').format(currencyTotal.total)} {currencyTotal?.moneda}</span>
@@ -225,7 +228,7 @@ const Checkout = (props) => {
               <div className="md:w-1/3 flex flex-col">
                 <div className="flex flex-col border-b py-4">
                   <div className='flex justify-between'><h1 className='text-white text-xl'>Información del viajero</h1> {!showInfoUser && <button className='rounded-lg border p-2 text-white' onClick={() => handleInfo(true)}>Editar</button>}</div>
-                  {showInfoUser &&<form onSubmit={(e)=>handleWhatsApp(e)}>
+                  {showInfoUser &&<form onSubmit={(e)=>handleSave(e)}>
                     <div className='grid grid-cols-1 mt-5 gap-5'>
                       <Input 
                         nombre='nombre' 
@@ -266,7 +269,7 @@ const Checkout = (props) => {
                   </form>}
                   {!showInfoUser && <div className='flex flex-col gap-1 text-white'>
                     <span><strong>Nombre:</strong> {dataUser?.nombre} {dataUser?.apellido}</span>
-                    <span><strong>Email:</strong> {dataUser?.email}</span>
+                    <span><strong>Email:</strong> {dataUser?.correo}</span>
                     <span><strong>Telefono:</strong> {dataUser?.telefono}</span>
                   </div>}
                 </div>
@@ -302,7 +305,7 @@ const Checkout = (props) => {
                         {(typePayment === 2 && selectFinaciamiento)&&<div className='w-full flex items-center justify-center pb-4 px-2'>
                           {clientSecret && (
                             <Elements options={options} stripe={stripePromise}>
-                              <CheckoutForm terminos={data?.politicas}/>
+                              <CheckoutForm terminos={data?.politicas} />
                             </Elements>
                           )}
                         </div>}

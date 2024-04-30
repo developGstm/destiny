@@ -304,3 +304,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   top: 0;
   width: auto;
 }
+
+.seccionAnimation {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 500ms;
+}
+
+
+.sectionInformacion .seccionAnimation{
+  grid-template-rows: 0fr;
+}
+
+.sectionInformacion .seccionAnimation > div{
+  overflow: hidden;
+}

@@ -13,7 +13,7 @@ import Checkout from './pages/checkout'
 import CheckoutSucess from './pages/checkoutSucess'
 import Login from './pages/login'
 import Register from './pages/register'
-import LandingProximamente from './pages/landingProximamente'
+import Lomitos from './pages/lomitos'
 import { HelmetProvider } from 'react-helmet-async';
 import LandingPromociones from './pages/landingPromociones';
 import Profile from './pages/profile';
@@ -32,6 +32,7 @@ root.render(
           <BrowserRouter>
             <Routes>
               <Route path={ "/" }  element={ <Home/> }/>
+              <Route path={ "/apoyemos-a-lomitos" }  element={ <Lomitos/>}/>
               <Route path={ "/checkout" }  element={ <Checkout/> }/>
               <Route path={ "/checkout/sucess" }  element={ <CheckoutSucess /> }/> 
               <Route path={ "/promocion-de-descuento-2024" }  element={ <LandingPromociones/> }/>
