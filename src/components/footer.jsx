@@ -2,6 +2,14 @@ import React from 'react'
 import logo from '../assets/logo-01.png'
 
 function footer(props) {
+
+  const handleWhatsApp = (e) => {
+    if (e) {
+      e.preventDefault()
+    }
+    const text = `Hola me gustaria hablar con un representante, ¿podrían ayudar?`
+    window.open(`https://wa.me/17022852381?text=${text.replace(/ /g, "%20")}`)
+  }
   return (
     <section className='mb-5 mt-20'>
       <div className="mx-auto max-w-7xl p-6 lg:px-8 bg-[#00020e] text-white rounded-xl flex items-center justify-center">
@@ -28,15 +36,6 @@ function footer(props) {
               Henserson, NV 89052</p>
             </span>
             <span className='flex items-center gap-2'>
-              <i className="fa-light fa-location-dot"></i><p>
-                Campo Real 1501
-                2do piso local A
-                Plaza Ambar
-                El Refugio, Queretaro
-                76146
-              </p>
-            </span>
-            <span className='flex items-center gap-2'>
               <a href="mailto:hola@destinytravel.ai"><i className="fa-light fa-envelope"></i> hola@destinytravel.ai</a>
             </span>
             <a href="tel:+17755402646" className='flex items-center gap-2'>
@@ -45,6 +44,12 @@ function footer(props) {
             <a href="tel:+524423885119" className='flex items-center gap-2'>
               <i className="fa-light fa-phone"></i><p>+52 442 38 85 119</p>
             </a>
+            <span className='flex items-center gap-2 cursor-pointer' onClick={() => handleWhatsApp()}>
+              <div className='bg-[#ffd603] text-[#010417] font-bold items-center flex gap-1 p-2 rounded-lg'>
+                <i className="fa-brands fa-whatsapp text-xl"></i>
+                <span className='text-xs'>¿Quieres una cita con un representante?</span>
+              </div>
+            </span>
           </div>
           <div>
             <div className='flex flex-col gap-4'>
