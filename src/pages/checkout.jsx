@@ -53,6 +53,7 @@ const Checkout = (props) => {
 
   const handleSave = (e) => { 
     e.preventDefault()
+    /*
     let tarifaSend = tarifaSelect?.titulo
     if (clientSecret === undefined) {
       fetch("https://cms.gstmtravel.com/api/paymentIntent", {
@@ -90,7 +91,7 @@ const Checkout = (props) => {
     } else {
       setFormasPago(true)
       setshowInfoUser(false)
-    }
+    }*/
   }
   
   const handleInput = (name,value) => {
@@ -228,7 +229,7 @@ const Checkout = (props) => {
               <div className="md:w-1/3 flex flex-col">
                 <div className="flex flex-col border-b py-4">
                   <div className='flex justify-between'><h1 className='text-white text-xl'>Información del viajero</h1> {!showInfoUser && <button className='rounded-lg border p-2 text-white' onClick={() => handleInfo(true)}>Editar</button>}</div>
-                  {showInfoUser &&<form onSubmit={(e)=>handleSave(e)}>
+                  {showInfoUser &&<form onSubmit={(e)=>handleWhatsApp(e)}>
                     <div className='grid grid-cols-1 mt-5 gap-5'>
                       <Input 
                         nombre='nombre' 

@@ -5,7 +5,7 @@ import {
   useElements
 } from "@stripe/react-stripe-js";
 
-export default function CheckoutForm({terminos}) {
+export default function CheckoutForm({terminos, dataUpdate}) {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -25,8 +25,8 @@ export default function CheckoutForm({terminos}) {
     if (!clientSecret) {
       return;
     }
-
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
+      console.log(paymentIntent, 'paymentIntent');
       switch (paymentIntent.status) {
         case "succeeded":
           setMessage("Payment succeeded!");
@@ -46,7 +46,6 @@ export default function CheckoutForm({terminos}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!stripe || !elements) {
       // Stripe.js hasn't yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
@@ -54,6 +53,21 @@ export default function CheckoutForm({terminos}) {
     }
 
     setIsLoading(true);
+    if (dataUpdate) {
+      await fetch("https://cms.gstmtravel.com/api/lomito/updatePaymentIntent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dataUpdate),
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          return
+          window.location.reload()
+        }
+      });
+    }
+
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
@@ -95,7 +109,7 @@ export default function CheckoutForm({terminos}) {
         </div>
         <div className="w-full h-full bg-[#010417] bg-opacity-90" onClick={() => setpoliticasShow(false)}></div>
       </div>}
-      <PaymentElement id="payment-element" options={{layout: {type: "accordion" }}}/>
+      <PaymentElement id="payment-element" options={{layout: {type: "accordion" }}} onReady={(e) => console.log(e)}/>
       <label className="p-2 border rounded-lg w-full border-[#081358] mb-5 flex items-center gap-3"><input type="checkbox" required="true" onInvalid={(e) => e.target.setCustomValidity('Acepta nuestros terminos y condiciones')}/><span className="font-semibold">Acepto <button onClick={() => setpoliticasShow(true)} className="border-b">Terminos y Condiciones</button></span></label>
       <button disabled={isLoading || !stripe || !elements} id="submitCheckoutForm">
         <span id="button-text">
