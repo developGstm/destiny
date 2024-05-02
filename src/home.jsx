@@ -163,7 +163,7 @@ const Home = () => {
       <Menu/>
       <Header 
         titulo='¡Gana un Viaje a <span class="text-[#ffd603]">Bali</span>!' 
-        subtitulo='Con Nuestros Influencers Favoritos'
+        subtitulo=''
         fechas="14 Días de Aventura Gratuita con nosotros" 
         background={ Fondo }
         eventos={true}
