@@ -16,6 +16,7 @@ import Register from './pages/register'
 import Lomitos from './pages/lomitos'
 import { HelmetProvider } from 'react-helmet-async';
 import LandingPromociones from './pages/landingPromociones';
+import LandingDescuento from './pages/landingDescuento';
 import Profile from './pages/profile';
 import { Provider } from 'react-redux';
 import { store, persistore } from './redux/store'; // Importa el store y el persistor de Redux Persist
@@ -37,6 +38,7 @@ root.render(
               <Route path={ "/checkout/sucess" }  element={ <CheckoutSucess /> }/> 
               <Route path={ "/promocion-de-descuento-2024" }  element={ <LandingPromociones/> }/>
               <Route path={ "/promocion-de-descuento-2024/:slug" }  element={ <LandingPromociones/>}/>
+              <Route path={ "/descuento-participante/:slug" }  element={ <LandingDescuento/>}/>
               <Route path={ "/gana-un-viaje-a-bali" }  element={ <LandingBali/> }/>
               <Route path={ "/conciertos" }  element={ <Landing/>}/>
               <Route path={ "/conciertos/:url" }  element={ <Landing/>}/>

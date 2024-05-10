@@ -12,7 +12,7 @@ const Header = ({ titulo,subtitulo,fechas,boton=false,background,eventos,url }) 
               <h1 className="font-extrabold text-5xl">
                 <span className='text-base block text-[#40caf4]'>{ fechas }</span>
                   <span dangerouslySetInnerHTML={{__html:titulo}}></span> 
-                <strong className="lg:block font-extrabold text-4xl"> {subtitulo }</strong>
+                  <strong className="lg:block font-extrabold text-4xl" dangerouslySetInnerHTML={{__html:subtitulo}}></strong>
               </h1>
               { boton !== false &&     
               <a href={ url } className='bg-[#2d8ae8] lg:w-1/2 my-3 rounded p-3 text-center font-semibold text-xl'> { boton } </a>
